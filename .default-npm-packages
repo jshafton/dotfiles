@@ -6,3 +6,7 @@ coffeelint
 jsonlint
 neovim
 bash-language-server
+yaml-language-server
+typescript
+typescript-language-server
+dockerfile-language-server-nodejs
