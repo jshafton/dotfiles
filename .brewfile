@@ -3,6 +3,7 @@ brew "elinks"
 brew "mackup"
 brew "tig"
 brew "neovim"
+brew "lua-language-server"
 
 # CLI speed test
 tap "teamookla/speedtest"

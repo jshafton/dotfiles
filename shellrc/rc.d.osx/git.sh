@@ -1,32 +1,24 @@
+#! /usr/bin/env bash
+
 if ! hash git 2>/dev/null; then
   return
 fi
 
-# TODO: add completion script from https://github.com/git/git/tree/master/contrib/completion
-
-alias g="git"
-
-# git-specific aliases
-__define_git_completion () {
-  eval "
-  _git_$2_shortcut () {
-  COMP_LINE=\"git $2\${COMP_LINE#$1}\"
-  let COMP_POINT+=$((4+${#2}-${#1}))
-  COMP_WORDS=(git $2 \"\${COMP_WORDS[@]:1}\")
-  let COMP_CWORD+=1
-
-  local cur words cword prev
-  _get_comp_words_by_ref -n =: cur words cword prev
-  _git_$2
-}
-"
-}
+if ! declare -f -F "__git_complete" >/dev/null; then
+  if [[ -r "${HOMEBREW_PREFIX}/etc/bash_completion.d/git-completion.bash" ]]; then
+    source "${HOMEBREW_PREFIX}/etc/bash_completion.d/git-completion.bash"
+  else
+    return
+  fi
+fi
 
 __git_shortcut () {
-  type _git_$2_shortcut &>/dev/null || __define_git_completion $1 $2
   alias $1="git $2 $3"
-  complete -o default -o nospace -F _git_$2_shortcut $1
+  __git_complete "$1" "git_$2"
 }
+
+alias g="git"
+__git_complete g git
 
 # Alias and set up tab completion
 __git_shortcut  ga    add
@@ -38,10 +30,10 @@ __git_shortcut  gf    fetch
 __git_shortcut  gl    log
 __git_shortcut  glp   log -p
 __git_shortcut  gls   log --stat
+__git_shortcut  gp    push
+__git_shortcut  gpf   push --force
 
 # No completion for these
-alias gp='git push'
-alias gpf='git push --force'
 alias gs='git status'
 alias gc='git commit'
 alias gpr='git pull --rebase'
