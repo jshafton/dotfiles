@@ -1,52 +1,8 @@
-# Simple calculator
-function calc() {
-  local result=""
-  result="$(printf "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')"
-  #                       └─ default (when `--mathlib` is used) is 20
-  #
-  if [[ "$result" == *.* ]]; then
-    # improve the output for decimal numbers
-    printf "$result" |
-    sed -e 's/^\./0./'        `# add "0" for cases like ".5"` \
-        -e 's/^-\./-0./'      `# add "0" for cases like "-.5"`\
-        -e 's/0*$//;s/\.$//'   # remove trailing zeros
-  else
-    printf "$result"
-  fi
-  printf "\n"
-}
+#! /usr/bin/env bash
 
 # Create a new directory and enter it
 function mkd() {
   mkdir -p "$@" && cd "$@"
-}
-
-# Create a .tar.gz archive, using `zopfli`, `pigz` or `gzip` for compression
-function targz() {
-  local tmpFile="${@%/}.tar"
-  tar -cvf "${tmpFile}" --exclude=".DS_Store" "${@}" || return 1
-
-  size=$(
-    stat -f"%z" "${tmpFile}" 2> /dev/null; # OS X `stat`
-    stat -c"%s" "${tmpFile}" 2> /dev/null # GNU `stat`
-  )
-
-  local cmd=""
-  if (( size < 52428800 )) && hash zopfli 2> /dev/null; then
-    # the .tar file is smaller than 50 MB and Zopfli is available; use it
-    cmd="zopfli"
-  else
-    if hash pigz 2> /dev/null; then
-      cmd="pigz"
-    else
-      cmd="gzip"
-    fi
-  fi
-
-  echo "Compressing .tar using \`${cmd}\`…"
-  "${cmd}" -v "${tmpFile}" || return 1
-  [ -f "${tmpFile}" ] && rm "${tmpFile}"
-  echo "${tmpFile}.gz created successfully."
 }
 
 # Determine size of a file or total size of a directory
@@ -63,38 +19,6 @@ function fs() {
   fi
 }
 
-# Use Git’s colored diff when available
-hash git &>/dev/null
-if [ $? -eq 0 ]; then
-  function diff() {
-    git diff --no-index --color-words "$@"
-  }
-fi
-
-# Create a data URL from a file
-function dataurl() {
-  local mimeType=$(file -b --mime-type "$1")
-  if [[ $mimeType == text/* ]]; then
-    mimeType="${mimeType};charset=utf-8"
-  fi
-  echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
-}
-
-# Compare original and gzipped file size
-function gz() {
-  local origsize=$(wc -c < "$1")
-  local gzipsize=$(gzip -c "$1" | wc -c)
-  local ratio=$(echo "$gzipsize * 100/ $origsize" | bc -l)
-  printf "orig: %d bytes\n" "$origsize"
-  printf "gzip: %d bytes (%2.2f%%)\n" "$gzipsize" "$ratio"
-}
-
-# Test if HTTP compression (RFC 2616 + SDCH) is enabled for a given URL.
-# Send a fake UA string for sites that sniff it instead of using the Accept-Encoding header. (Looking at you, ajax.googleapis.com!)
-function httpcompression() {
-  encoding="$(curl -LIs -H 'User-Agent: Mozilla/5 Gecko' -H 'Accept-Encoding: gzip,deflate,compress,sdch' "$1" | grep '^Content-Encoding:')" && echo "$1 is encoded using ${encoding#* }" || echo "$1 is not using any encoding"
-}
-
 # Syntax-highlight JSON strings or files
 # Usage: `json '{"foo":42}'` or `echo '{"foo":42}' | json`
 function json() {
@@ -102,38 +26,6 @@ function json() {
     python -mjson.tool <<< "$*" | pygmentize -l javascript
   else # pipe
     python -mjson.tool | pygmentize -l javascript
-  fi
-}
-
-# All the dig info
-function digga() {
-  dig +nocmd "$1" any +multiline +noall +answer
-}
-
-# Escape UTF-8 characters into their 3-byte format
-function escape() {
-  printf "\\\x%s" $(printf "$@" | xxd -p -c1 -u)
-  # print a newline unless we’re piping the output to another program
-  if [ -t 1 ]; then
-    echo # newline
-  fi
-}
-
-# Decode \x{ABCD}-style Unicode escape sequences
-function unidecode() {
-  perl -e "binmode(STDOUT, ':utf8'); print \"$@\""
-  # print a newline unless we’re piping the output to another program
-  if [ -t 1 ]; then
-    echo # newline
-  fi
-}
-
-# Get a character’s Unicode code point
-function codepoint() {
-  perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))"
-  # print a newline unless we’re piping the output to another program
-  if [ -t 1 ]; then
-    echo # newline
   fi
 }
 
@@ -171,16 +63,6 @@ function getcertnames() {
   fi
 }
 
-# `v` with no arguments opens the current directory in Vim, otherwise opens the
-# given location
-function v() {
-  if [ $# -eq 0 ]; then
-    vim .
-  else
-    vim "$@"
-  fi
-}
-
 # `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
 # the `.git` directory, listing directories first. The output gets piped into
 # `less` with options to preserve color and line numbers, unless the output is
@@ -189,22 +71,11 @@ function tre() {
   tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX
 }
 
-# Monitors HTTP traffic on a specific port using tcpdump
-function httpmon() {
-  if [ -z "${1}" ]; then
-    echo "Usage: \`httpmon port\`"
-    return 1
-  fi
-  PORT=$1
-  TCPDUMPARG="tcp port $PORT and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)"
-  sudo tcpdump -s 0 -A -i lo0 $TCPDUMPARG
-}
-
 # More intelligent man pages - use `help` for built-ins
 man () {
   case "$(type -t "$1"):$1" in
-    builtin:*) help "$1" | "${PAGER:-less}";;     # built-in
-    *[[?*]*) help "$1" | "${PAGER:-less}";;       # pattern
+    builtin:*) help "$1" | "${MANPAGER:-less}";;     # built-in
+    *[[?*]*) help "$1" | "${MANPAGER:-less}";;       # pattern
     *) command man "$@";;  # something else, presumed to be an external command
                            # or options for the man command or a section number
   esac
@@ -213,4 +84,3 @@ man () {
 function delKnownHost() {
   sed -e "$1d" -i '' ~/.ssh/known_hosts
 }
-
