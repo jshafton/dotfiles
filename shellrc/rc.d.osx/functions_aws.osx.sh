@@ -110,8 +110,6 @@ function ssh-ec2-name() {
 }
 
 function ssh-ec2 {
-  set -eo pipefail
-
   local instance_ip
 
   instance_ip=$(ec2-ip-from-tags "$@")
