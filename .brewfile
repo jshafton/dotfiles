@@ -29,6 +29,7 @@ cask "vimr"
 cask "authy"
 cask "datagrip"
 cask "dash"
+cask "kitty"
 
 # personal apps
 cask "marta"
