@@ -74,8 +74,8 @@ function tre() {
 # More intelligent man pages - use `help` for built-ins
 man () {
   case "$(type -t "$1"):$1" in
-    builtin:*) help "$1" | "${MANPAGER:-less}";;     # built-in
-    *[[?*]*) help "$1" | "${MANPAGER:-less}";;       # pattern
+    builtin:*) help "$@" | eval "${MANPAGER:-less}";;     # built-in
+    *[[?*]*) help "$@" | eval "${MANPAGER:-less}";;       # pattern
     *) command man "$@";;  # something else, presumed to be an external command
                            # or options for the man command or a section number
   esac
