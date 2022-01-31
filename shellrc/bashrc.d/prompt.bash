@@ -171,7 +171,7 @@ export LP_ENABLE_ERROR=1
 export LP_DISABLED_VCS_PATHS=()
 
 # Put the command prompt on a newline
-export LP_MARK_PREFIX=$'\n'
+export LP_MARK_PREFIX=$' \n'
 
 # Use a local liquidpromptrc if it exists.
 # Can be helpful if you sync your primary config across machines, or if
