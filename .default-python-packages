@@ -6,3 +6,5 @@ ranger-fm
 pynvim
 neovim
 awslogs
+jedi
+python-language-server
