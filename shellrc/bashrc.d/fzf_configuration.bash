@@ -30,6 +30,4 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 # ctrl-r (shell history) has no file to preview
 export FZF_CTRL_R_OPTS="--preview ''"
 
-# use tmux popup windows if available
 export FZF_TMUX=1
-export FZF_TMUX_OPTS="-p"
