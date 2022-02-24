@@ -5,13 +5,15 @@ git:
   pull:
     mode: rebase
   commitPrefixes:
-    strenuus-ansible:
+    ansible:
       pattern: "^(\\d+)-(.+)"
       replace: '$1 '
   branchLogCmd: "git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium --oneline {{branchName}} --"
 gui:
   scrollHeight: 10 # how many lines you scroll by
   scrollPastBottom: true # enable scrolling past the bottom
+  showFileTree: false
+  expandFocusedSidePanel: true
   theme:
     selectedLineBgColor:
       - reverse
