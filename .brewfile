@@ -5,6 +5,8 @@ brew "tig"
 brew "neovim"
 brew "lua-language-server"
 brew "deno"
+brew "shellcheck"
+brew "shellfmt"
 
 # CLI speed test
 tap "teamookla/speedtest"
