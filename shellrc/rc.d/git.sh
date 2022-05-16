@@ -7,8 +7,6 @@ fi
 if ! declare -f -F "__git_complete" >/dev/null; then
   if [[ -r "${HOMEBREW_PREFIX}/etc/bash_completion.d/git-completion.bash" ]]; then
     source "${HOMEBREW_PREFIX}/etc/bash_completion.d/git-completion.bash"
-  elif [[ -r "/etc/bash_completion.d/git-completion.bash" ]]; then
-    source "/etc/bash_completion.d/git-completion.bash"
   else
     return
   fi

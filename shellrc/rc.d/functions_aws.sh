@@ -15,17 +15,18 @@ function ec2-id-from-tags() {
   ec2_data=$( \
     aws ec2 describe-instances \
       --region us-east-1 \
-      --query 'Reservations[*].Instances[*].{Tags:Tags, ID:InstanceId}' \
+      --query 'Reservations[*].Instances[*].{Tags:Tags, ID:InstanceId, IP:PrivateIpAddress, InstanceType:InstanceType}' \
       --filters "Name=instance-state-name,Values=running"
   )
 
   selected_instance=$( \
     echo "$ec2_data" \
-    | jq -r '.[][] | select(.Tags != null) | [ "ID=\(.ID)", (.Tags | map("\(.Key)=\(.Value|tostring)") | sort | join("|")) ] | join("|")' \
+    | jq -r '.[][] | select(.Tags != null) | [ "ID=\(.ID)", "IP=\(.IP)", "InstanceType=\(.InstanceType)", (.Tags | map("\(.Key)=\(.Value|tostring)") | sort | join("|")) ] | join("|")' \
     | sort \
     | fzf \
       --prompt="Select instance > " \
       --query "$filter" \
+      -m \
       --preview "echo {} | sed 's/\|/\r\n/g'"
   )
 
@@ -161,4 +162,29 @@ function pgcli-rds {
   echo "Connecting to $instance_endpoint..."
   pgcli -h "$instance_endpoint" -U jshafton -d postgres
   history -s pgcli -h "$instance_endpoint" -U jshafton -d postgres
+}
+
+function ec2-asg-name-from-tags() {
+  local filter ec2_data selected_instance
+
+  filter="$@"
+
+  ec2_data=$( \
+    aws autoscaling describe-auto-scaling-groups \
+      --region us-east-1 \
+      --query 'AutoScalingGroups[*].{Tags:Tags, Name:AutoScalingGroupName, DesiredCapacity:DesiredCapacity, MinSize:MinSize, MaxSize:MaxSize}'
+  )
+
+  selected_asg=$( \
+    echo "$ec2_data" \
+    | jq -r '.[] | select(.Tags != null) | [ "Name=\(.Name)", "Desired=\(.DesiredCapacity)", "MinSize=\(.MinSize)", "MaxSize=\(.MaxSize)", (.Tags | map("\(.Key)=\(.Value|tostring)") | sort | join("|")) ] | join("|")' \
+    | sort \
+    | fzf \
+      --prompt="Select asg > " \
+      --query "$filter" \
+      -m \
+      --preview "echo {} | sed 's/\|/\r\n/g'"
+  )
+
+  echo "$selected_asg" | sed 's/^.*[[:<:]]Name=\([^\|]*\)\|.*$/\1/'
 }

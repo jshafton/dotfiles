@@ -1,2 +1,5 @@
-# Make vim the default editor
-export EDITOR="vim"
+if hash nvim >/dev/null; then
+  export EDITOR="nvim"
+else
+  export EDITOR="vim"
+fi
