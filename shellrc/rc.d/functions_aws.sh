@@ -27,7 +27,7 @@ function ec2-id-from-tags() {
       --prompt="Select instance > " \
       --query "$filter" \
       -m \
-      --preview "echo {} | sed 's/\|/\r\n/g'"
+      --preview "echo {} | sed 's/|/\r\n/g'"
   )
 
   echo "$selected_instance" | sed 's/^.*[[:<:]]ID=\([^\|]*\)\|.*$/\1/'
@@ -52,7 +52,7 @@ function ec2-ip-from-tags() {
     | fzf \
       --prompt="Select instance > " \
       --query "$filter" \
-      --preview "echo {} | sed 's/\|/\r\n/g'"
+      --preview "echo {} | sed 's/|/\r\n/g'"
   )
 
   echo "$selected_instance" | sed 's/^.*[[:<:]]IP=\([^\|]*\)\|.*$/\1/'
@@ -183,7 +183,7 @@ function ec2-asg-name-from-tags() {
       --prompt="Select asg > " \
       --query "$filter" \
       -m \
-      --preview "echo {} | sed 's/\|/\r\n/g'"
+      --preview "echo {} | sed 's/|/\r\n/g'"
   )
 
   echo "$selected_asg" | sed 's/^.*[[:<:]]Name=\([^\|]*\)\|.*$/\1/'
