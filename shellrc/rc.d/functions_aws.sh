@@ -30,7 +30,7 @@ function ec2-id-from-tags() {
       --preview "echo {} | sed 's/|/\r\n/g'"
   )
 
-  echo "$selected_instance" | sed 's/^.*[[:<:]]ID=\([^\|]*\)\|.*$/\1/'
+  echo "$selected_instance" | sed 's/^.*\<ID=\([^\|]*\)|.*$/\1/'
 }
 
 function ec2-ip-from-tags() {
@@ -55,7 +55,7 @@ function ec2-ip-from-tags() {
       --preview "echo {} | sed 's/|/\r\n/g'"
   )
 
-  echo "$selected_instance" | sed 's/^.*[[:<:]]IP=\([^\|]*\)\|.*$/\1/'
+  echo "$selected_instance" | sed 's/^.*\<IP=\([^\|]*\)|.*$/\1/'
 }
 
 function ec2-get-environment-name() {
