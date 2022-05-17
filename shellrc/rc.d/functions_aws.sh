@@ -30,7 +30,7 @@ function ec2-id-from-tags() {
       --preview "echo {} | sed 's/|/\r\n/g'"
   )
 
-  echo "$selected_instance" | sed 's/^.*\<ID=\([^\|]*\)|.*$/\1/'
+  echo "$selected_instance" | awk -v RS='|' -F '=' '$1=="ID" { print $2 }'
 }
 
 function ec2-ip-from-tags() {
@@ -55,7 +55,7 @@ function ec2-ip-from-tags() {
       --preview "echo {} | sed 's/|/\r\n/g'"
   )
 
-  echo "$selected_instance" | sed 's/^.*\<IP=\([^\|]*\)|.*$/\1/'
+  echo "$selected_instance" | awk -v RS='|' -F '=' '$1=="IP" { print $2 }'
 }
 
 function ec2-get-environment-name() {
@@ -99,7 +99,7 @@ function redshift-endpoint-from-tags() {
     | fzf --prompt="Select instance > " --query "$filter" \
   )
 
-  echo "$selected_instance" | sed 's/^.*[[:<:]]ID=\([^\|]*\)\|.*$/\1/'
+  echo "$selected_instance" | awk -v RS='|' -F '=' '$1=="ID" { print $2 }'
 }
 
 function ssh-ec2-id() {
@@ -186,5 +186,5 @@ function ec2-asg-name-from-tags() {
       --preview "echo {} | sed 's/|/\r\n/g'"
   )
 
-  echo "$selected_asg" | sed 's/^.*[[:<:]]Name=\([^\|]*\)\|.*$/\1/'
+  echo "$selected_asg" | awk -v RS='|' -F '=' '$1=="Name" { print $2 }'
 }
