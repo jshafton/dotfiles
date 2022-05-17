@@ -14,23 +14,24 @@ if [[ $- != *i* ]] ; then
 fi
 
 # load all files from .shell/paths.d directory
-if [[ -z $TMUX ]]; then
-  if [ -d $HOME/.shellrc/paths.d ]; then
-    for file in $HOME/.shellrc/paths.d/*.sh; do
-      [ -e "$file" ] && source $file
+if [ -d "$HOME"/.shellrc/paths.d ]; then
+  for file in "$HOME"/.shellrc/paths.d/*.sh; do
+    [ -e "$file" ] && source "$file"
+  done
+fi
+
+# load all files from .shell/paths.d.osx directory
+if [[ "$(uname)" == "Darwin" ]]; then
+  if [ -d "$HOME"/.shellrc/paths.d.osx ]; then
+    for file in "$HOME"/.shellrc/paths.d.osx/*.sh; do
+      [ -e "$file" ] && source "$file"
     done
   fi
 fi
 
-# load all files from .shell/paths.d.osx directory
+# clean up any path dupes
 if [[ -z $TMUX ]]; then
-  if [[ "$(uname)" == "Darwin" ]]; then
-    if [ -d $HOME/.shellrc/paths.d.osx ]; then
-      for file in $HOME/.shellrc/paths.d.osx/*.sh; do
-        [ -e "$file" ] && source $file
-      done
-    fi
-  fi
+  PATH=$(echo "$PATH" | tr ':' '\n' | uniq | tr '\n' ':')
 fi
 
 # load all files from .shell/bashrc.d directory
@@ -42,25 +43,25 @@ fi
 
 # load all files from .shell/bashrc.d.osx directory
 if [[ "$(uname)" == "Darwin" ]]; then
-  if [ -d $HOME/.shellrc/bashrc.d.osx ]; then
-    for file in $HOME/.shellrc/bashrc.d.osx/*.bash; do
-      [ -e "$file" ] && source $file
+  if [ -d "$HOME"/.shellrc/bashrc.d.osx ]; then
+    for file in "$HOME"/.shellrc/bashrc.d.osx/*.bash; do
+      [ -e "$file" ] && source "$file"
     done
   fi
 fi
 
 # load all files from .shell/rc.d directory
-if [ -d $HOME/.shellrc/rc.d ]; then
-  for file in $HOME/.shellrc/rc.d/*.sh; do
-    [ -e "$file" ] && source $file
+if [ -d "$HOME"/.shellrc/rc.d ]; then
+  for file in "$HOME"/.shellrc/rc.d/*.sh; do
+    [ -e "$file" ] && source "$file"
   done
 fi
 
 # load all files from .shell/rc.d.osx directory
 if [[ "$(uname)" == "Darwin" ]]; then
-  if [ -d $HOME/.shellrc/rc.d.osx ]; then
-    for file in $HOME/.shellrc/rc.d.osx/*.sh; do
-      [ -e "$file" ] && source $file
+  if [ -d "$HOME"/.shellrc/rc.d.osx ]; then
+    for file in "$HOME"/.shellrc/rc.d.osx/*.sh; do
+      [ -e "$file" ] && source "$file"
     done
   fi
 fi
