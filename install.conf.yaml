@@ -82,6 +82,12 @@
       force: true
       path: ranger
 
+    # vifm file manager
+    ~/.config/vifm:
+      create: true
+      force: true
+      path: vifm
+
     # liquid prompt
     ~/.liquidprompt:
       create: true

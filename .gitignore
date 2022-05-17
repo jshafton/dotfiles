@@ -21,3 +21,5 @@ session*.vim
 tags
 
 vendor/
+
+vifm/vifm-help.txt
