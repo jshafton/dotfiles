@@ -5,6 +5,7 @@ eslint
 coffeelint
 jsonlint
 neovim
+tree-sitter-cli
 bash-language-server
 yaml-language-server
 typescript
