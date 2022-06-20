@@ -53,7 +53,7 @@ cask "plex-media-server"
 cask "notion"
 cask "yt-music"
 cask "google-drive"
-cask "skitch"
+cask "shottr"
 
 # paid apps
 cask "bartender"
