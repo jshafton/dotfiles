@@ -15,10 +15,19 @@ git submodule update --init --recursive
 
 if [[ "$(uname)" == "Darwin" ]]; then
   (
-    echo "Configuring macos defaults..."
+    echo "--> Configuring macos defaults..."
     cd "${BASEDIR}"
     ./defaults.macos/defaults_user.sh
     ./defaults.macos/defaults_sudo.sh
     ./defaults.macos/configure_dock.sh
+
+    echo "--> Configuring python for neovim..."
+    cd "$HOME"
+    for py in 2 3; do
+      virtualenv -p "$(asdf which python"$py")" neovim"$py"
+      source neovim"$py"/bin/activate
+      python -m pip install pynvim neovim python-language-server jedi yamllint vim-vint ranger-fm
+      deactivate
+    done
   )
 fi
