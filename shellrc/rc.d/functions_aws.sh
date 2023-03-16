@@ -30,7 +30,10 @@ function ec2-id-from-tags() {
       --preview "echo {} | sed 's/|/\r\n/g'"
   )
 
-  echo "$selected_instance" | awk -v RS='|' -F '=' '$1=="ID" { print $2 }'
+  echo "$selected_instance"  \
+    | tr '\n' '|' \
+    | tr ' ' '|' \
+    | awk -v RS='|' -F '=' '$1=="ID" { print $2 }'
 }
 
 function ec2-ip-from-tags() {
@@ -175,7 +178,6 @@ function ec2-asg-name-from-tags() {
       --query 'AutoScalingGroups[*].{Tags:Tags, Name:AutoScalingGroupName, DesiredCapacity:DesiredCapacity, MinSize:MinSize, MaxSize:MaxSize}'
   )
 
-  selected_asg=$( \
     echo "$ec2_data" \
     | jq -r '.[] | select(.Tags != null) | [ "Name=\(.Name)", "Desired=\(.DesiredCapacity)", "MinSize=\(.MinSize)", "MaxSize=\(.MaxSize)", (.Tags | map("\(.Key)=\(.Value|tostring)") | sort | join("|")) ] | join("|")' \
     | sort \
@@ -183,8 +185,8 @@ function ec2-asg-name-from-tags() {
       --prompt="Select asg > " \
       --query "$filter" \
       -m \
-      --preview "echo {} | sed 's/|/\r\n/g'"
-  )
-
-  echo "$selected_asg" | awk -v RS='|' -F '=' '$1=="Name" { print $2 }'
+      --preview "echo {} | sed 's/|/\r\n/g'" \
+    | tr '\n' '|' \
+    | tr ' ' '|' \
+    | awk -v RS='|' -F '=' '$1=="Name" { print $2 }'
 }

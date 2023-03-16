@@ -83,3 +83,8 @@ done
 
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
+
+if command -v kubectl > /dev/null; then
+  command -v k > /dev/null || alias k='kubectl'
+  complete -F __start_kubectl k
+fi

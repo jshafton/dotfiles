@@ -32,7 +32,7 @@ export FZF_CTRL_R_OPTS="--preview ''"
 
 # use tmuxp popups on macos
 if [ -n "$TMUX" ] && [[ "$(uname)" == "Darwin" ]]; then
-  export FZF_TMUX_OPTS="-p"
+  # export FZF_TMUX_OPTS="-p"
   export FZF_TMUX=1
 else
   export FZF_TMUX=0

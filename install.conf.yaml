@@ -80,13 +80,13 @@
     ~/.config/ranger:
       create: true
       force: true
-      path: ranger
+      path: .config/ranger
 
     # vifm file manager
     ~/.config/vifm:
       create: true
       force: true
-      path: vifm
+      path: .config/vifm
 
     # liquid prompt
     ~/.liquidprompt:

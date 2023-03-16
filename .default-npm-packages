@@ -11,3 +11,4 @@ yaml-language-server
 typescript
 typescript-language-server
 dockerfile-language-server-nodejs
+vscode-langservers-extracted

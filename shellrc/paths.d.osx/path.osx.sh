@@ -5,6 +5,11 @@ if [ -d "${HOMEBREW_PREFIX}/opt/libpq/bin" ]; then
   path_prepend "${HOMEBREW_PREFIX}/opt/libpq/bin"
 fi;
 
+# Java
+if [ -d "${HOMEBREW_PREFIX}/opt/openjdk/bin" ]; then
+  path_prepend "${HOMEBREW_PREFIX}/opt/openjdk/bin"
+fi;
+
 # TODO: remove this? make it not-OS-specific?
 if [ -d ${HOMEBREW_PREFIX}/opt/coreutils/libexec ]; then
   export GNU_COREUTILS_PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin"

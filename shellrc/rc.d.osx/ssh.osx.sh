@@ -14,7 +14,9 @@ EOF
 if [ "$TERM" = "xterm-kitty" ]; then
   # https://wiki.archlinux.org/title/Kitty#Terminal_issues_with_SSH
   ssh() {
-    kitty +kitten ssh -t "$@" "$SCRIPT"
+    # currently broken with tmux
+    # kitty +kitten ssh -t "$@" "$SCRIPT"
+    TERM=xterm-256color /usr/bin/ssh -t "$@" "$SCRIPT"
   }
 else
   ssh() {
