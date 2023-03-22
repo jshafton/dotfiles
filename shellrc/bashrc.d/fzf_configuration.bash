@@ -10,8 +10,10 @@ export FZF_DEFAULT_OPTS="
   --exact
   --preview '$_fzf_preview_command'
   --bind '?:toggle-preview'
-  --bind 'ctrl-u:preview-page-up'
-  --bind 'ctrl-d:preview-page-down'
+  --bind 'ctrl-u:page-up'
+  --bind 'ctrl-d:page-down'
+  --bind 'ctrl-f:preview-page-down'
+  --bind 'ctrl-b:preview-page-up'
 "
 # --preview-window 'right:60%:hidden'
   #   ctrl-b:preview-page-up,ctrl-f:preview-page-down, \
