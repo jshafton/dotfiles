@@ -129,17 +129,14 @@ function ssh-ec2 {
 }
 
 function pgcli-ec2 {
-  local instance_ip database local_port remote_port
+  local instance_ip database
 
   database="${1-postgres}"
   instance_ip="${2-$(ec2-ip-from-tags)}"
-  local_port="$(awk 'BEGIN{srand();print int(rand()*(63000-2000))+2000 }')"
-  remote_port=5432
   remote_user="jshafton"
 
   echo "Connecting to $instance_ip..."
-  ssh -f -o ExitOnForwardFailure=yes -L "$local_port:$instance_ip:$remote_port" "$remote_user@$instance_ip" sleep 10
-  pgcli -h "localhost" -p "$local_port" -U "$remote_user" -d "$database"
+  pgcli -h "$instance_ip" -U "$remote_user" -d "$database" --ssh-tunnel ci.strenuus.com 2>/dev/null
   history -s pgcli-ec2 "$database" "$instance_ip"
 }
 
