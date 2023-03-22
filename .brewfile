@@ -7,6 +7,8 @@ brew "lua-language-server"
 brew "deno"
 brew "shellcheck"
 brew "shellfmt"
+brew "findutils"
+brew "sed"
 
 # CLI speed test
 tap "teamookla/speedtest"
@@ -43,13 +45,9 @@ cask "caffeine"
 cask "telegram"
 cask "signal"
 cask "calibre"
-cask "android-messages"
-cask "remember-the-milk"
 cask "kindle"
 cask "send-to-kindle"
-cask "xbar"
 cask "transmission"
-cask "plex-media-server"
 cask "notion"
 cask "spotify"
 cask "spotify-now-playing"
@@ -61,7 +59,6 @@ cask "bartender"
 cask "daisydisk"
 cask "istat-menus"
 cask "alfred"
-cask "surfshark"
 
 brew "tmuxinator-completion"
 
@@ -79,7 +76,6 @@ cask "font-hack-nerd-font"
 cask "font-victor-mono-nerd-font"
 
 brew "mas" # required for using mas in a brewfile
-mas "Kiwi for Gmail",         id: 986304488
 mas "HyperDock",              id: 449830122
 mas "Paprika Recipe Manager", id: 1303222628
 mas "Bitwarden",              id: 1352778147

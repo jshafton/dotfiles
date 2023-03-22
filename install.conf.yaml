@@ -1,10 +1,14 @@
+---
+
 - clean:
     - "~"
 
 - link:
 
     # shell configuration
-    ~/.shellrc: shellrc/
+    ~/.shellrc:
+      path: shellrc/
+      force: true
     ~/.bashrc:
       force: true
       path: shellrc/bashrc
@@ -16,25 +20,58 @@
       path: shellrc/inputrc
 
     # regular dotfiles
-    ~/.ackrc: .ackrc
-    ~/.ctags: .ctags
-    ~/.gitconfig: .gitconfig
-    ~/.lazygit: .lazygit
+    ~/.ackrc:
+      path: .ackrc
+      force: true
+    ~/.ctags:
+      path: .ctags
+      force: true
+    ~/.gitconfig:
+      path: .gitconfig
+      force: true
+    ~/.lazygit:
+      path: .lazygit
+      force: true
     ~/.gitconfig.local:
       path: .gitconfig.osx
       if: '[ $( uname ) = Darwin ]'
-    ~/.gitignore: .gitignore
-    ~/.gitmodules: .gitmodules
-    ~/.hushlogin: .hushlogin
-    ~/.irbrc: .irbrc
-    ~/.pryrc: .pryrc
-    ~/.screenrc: .screenrc
-    ~/.tmux.conf: .tmux.conf
-    ~/.wgetrc: .wgetrc
-    ~/.mackup: .mackup/
-    ~/.mackup.cfg: .mackup.cfg
-    ~/.tigrc: .tigrc
-    ~/.vimperatorrc: .vimperatorrc
+      force: true
+    ~/.gitignore:
+      path: .gitignore
+      force: true
+    ~/.gitmodules:
+      path: .gitmodules
+      force: true
+    ~/.hushlogin:
+      path: .hushlogin
+      force: true
+    ~/.irbrc:
+      path: .irbrc
+      force: true
+    ~/.pryrc:
+      path: .pryrc
+      force: true
+    ~/.screenrc:
+      path: .screenrc
+      force: true
+    ~/.tmux.conf:
+      path: .tmux.conf
+      force: true
+    ~/.wgetrc:
+      path: .wgetrc
+      force: true
+    ~/.mackup:
+      path: .mackup/
+      force: true
+    ~/.mackup.cfg:
+      path: .mackup.cfg
+      force: true
+    ~/.tigrc:
+      path: .tigrc
+      force: true
+    ~/.vimperatorrc:
+      path: .vimperatorrc
+      force: true
 
     # vim
     ~/.vim:
@@ -52,23 +89,37 @@
       path: vimfiles/
 
     # custom scripts
-    ~/bin: bin/
+    ~/bin:
+      path: bin/
+      force: true
 
     # asdf configuration
-    ~/.asdfrc: .asdfrc
+    ~/.asdfrc:
+      path: .asdfrc
+      force: true
 
     # homebrew
-    ~/.brewfile: .brewfile
+    ~/.brewfile:
+      path: .brewfile
+      force: true
 
     # Ruby configuration
-    ~/.gemrc: .gemrc
-    ~/.default-gems: .default-gems
+    ~/.gemrc:
+      path: .gemrc
+      force: true
+    ~/.default-gems:
+      path: .default-gems
+      force: true
 
     # node.js configuration
-    ~/.default-npm-packages: .default-npm-packages
+    ~/.default-npm-packages:
+      path: .default-npm-packages
+      force: true
 
     # python configuration
-    ~/.default-python-packages: .default-python-packages
+    ~/.default-python-packages:
+      path: .default-python-packages
+      force: true
 
     # tmux plugins
     ~/.tmux/plugins/tpm:
@@ -93,6 +144,12 @@
       create: true
       force: true
       path: liquidprompt
+
+    # extrakto tpm plugin
+    ~/.config/extrakto:
+      create: true
+      force: true
+      path: .config/extrakto
 
 - shell:
     - [ "git submodule update --init --recursive",                                           "Installing submodules" ]

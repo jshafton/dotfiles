@@ -11,15 +11,20 @@ if [ -d "${HOMEBREW_PREFIX}/opt/openjdk/bin" ]; then
 fi;
 
 # TODO: remove this? make it not-OS-specific?
-if [ -d ${HOMEBREW_PREFIX}/opt/coreutils/libexec ]; then
+if [ -d "${HOMEBREW_PREFIX}/opt/coreutils/libexec" ]; then
   export GNU_COREUTILS_PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin"
   export GNU_COREUTILS_MANPATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnuman"
+  export GNU_FINDUTILS_PATH="${HOMEBREW_PREFIX}/opt/findutils/libexec/gnubin"
 fi;
 
-if [ -d $GNU_COREUTILS_PATH ]; then
+if [ -d "$GNU_COREUTILS_PATH" ]; then
   path_prepend "$GNU_COREUTILS_PATH"
 fi;
 
-if [ -d $GNU_COREUTILS_MANPATH ]; then
+if [ -d "$GNU_FINDUTILS_PATH" ]; then
+  path_prepend "$GNU_FINDUTILS_PATH"
+fi
+
+if [ -d "$GNU_COREUTILS_MANPATH" ]; then
   export MANPATH="$GNU_COREUTILS_MANPATH:$PATH"
 fi;
