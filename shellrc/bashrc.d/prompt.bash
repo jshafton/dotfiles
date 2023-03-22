@@ -170,6 +170,9 @@ export LP_ENABLE_ERROR=1
 # Ex: ("/root" "/home/me/large-remove-svn-repo")
 export LP_DISABLED_VCS_PATHS=()
 
+# Show the value of $SHLVL, which is the number of nested shells.
+export LP_ENABLE_SHLVL=0
+
 # Put the command prompt on a newline
 export LP_MARK_PREFIX=$' \n'
 
