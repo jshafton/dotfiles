@@ -136,7 +136,7 @@ function pgcli-ec2 {
   remote_user="jshafton"
 
   echo "Connecting to $instance_ip..."
-  pgcli -h "$instance_ip" -U "$remote_user" -d "$database" --ssh-tunnel ci.strenuus.com 2>/dev/null
+  pgcli -h "$instance_ip" -U "$remote_user" -d "$database" --ssh-tunnel ci.strenuus.com
   history -s pgcli-ec2 "$database" "$instance_ip"
 }
 
