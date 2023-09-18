@@ -8,3 +8,5 @@ neovim
 awslogs
 jedi
 python-language-server
+pgcli
+pgcli[sshtunnel]

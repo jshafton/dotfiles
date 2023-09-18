@@ -12,3 +12,4 @@ typescript
 typescript-language-server
 dockerfile-language-server-nodejs
 vscode-langservers-extracted
+npm-groovy-lint
