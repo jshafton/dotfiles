@@ -11,11 +11,11 @@ alias tf="tail -f"
 alias psg="ps -ef | grep -v grep | grep -i "
 
 # Detect which `ls` flavor is in use
-if ls --color > /dev/null 2>&1; then # GNU `ls`
-  colorflag="--color"
-else # OS X `ls`
-  colorflag="-G"
-fi
+# if ls --color > /dev/null 2>&1; then # GNU `ls`
+colorflag="--color"
+# else # OS X `ls`
+  # colorflag="-G"
+# fi
 
 # List all files colorized in long format
 alias l="ls -l ${colorflag}"
@@ -53,13 +53,13 @@ alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
 
 # Canonical hex dump; some systems have this symlinked
-command -v hd > /dev/null || alias hd="hexdump -C"
+hash hd 2>/dev/null || alias hd="hexdump -C"
 
 # OS X has no `md5sum`, so use `md5` as a fallback
-command -v md5sum > /dev/null || alias md5sum="md5"
+hash md5sum 2>/dev/null || alias md5sum="md5"
 
 # OS X has no `sha1sum`, so use `shasum` as a fallback
-command -v sha1sum > /dev/null || alias sha1sum="shasum"
+hash sha1sum 2>/dev/null || alias sha1sum="shasum"
 
 # ROT13-encode text. Works for decoding, too! ;)
 alias rot13='tr a-zA-Z n-za-mN-ZA-M'
@@ -83,8 +83,3 @@ done
 
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
-
-if command -v kubectl > /dev/null; then
-  command -v k > /dev/null || alias k='kubectl'
-  complete -F __start_kubectl k
-fi

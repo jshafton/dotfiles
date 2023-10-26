@@ -54,7 +54,7 @@ export LP_ENABLE_FQDN=0
 # 0: hide the logged user (always display different users)
 # -1: never display the user name
 # Default value is 1
-export LP_USER_ALWAYS=1
+export LP_USER_ALWAYS=0
 
 # Display the actual values of load/batteries along with their
 # corresponding marks. Set to 0 to only print the colored marks.
@@ -147,7 +147,7 @@ export LP_ENABLE_VIRTUALENV=1
 export LP_ENABLE_SCLS=1
 
 # Show highest system temperature
-export LP_ENABLE_TEMP=1
+export LP_ENABLE_TEMP=0
 
 # When showing the time, use an analog clock instead of numeric values.
 # Recommended value is 0
@@ -158,7 +158,7 @@ export LP_TIME_ANALOG=0
 export LP_ENABLE_TITLE=0
 
 # Enable Title for screen, byobu, and tmux
-export LP_ENABLE_SCREEN_TITLE=0
+export LP_ENABLE_SCREEN_TITLE=1
 
 # Use different colors for the different hosts you SSH to
 export LP_ENABLE_SSH_COLORS=0

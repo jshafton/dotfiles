@@ -28,3 +28,8 @@ fi
 if [ -d "$GNU_COREUTILS_MANPATH" ]; then
   export MANPATH="$GNU_COREUTILS_MANPATH:$PATH"
 fi;
+
+# asdf sets up necessary shims for paths and completions
+if [ -f "${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh" ]; then
+  . "${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh"
+fi

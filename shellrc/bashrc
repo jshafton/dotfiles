@@ -13,6 +13,8 @@ if [[ $- != *i* ]] ; then
   return
 fi
 
+shopt -s nullglob
+
 # load all files from .shell/paths.d directory
 if [ -d "$HOME"/.shellrc/paths.d ]; then
   for file in "$HOME"/.shellrc/paths.d/*.sh; do
