@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if ! command -v kubectl > /dev/null; then
-  exit 0
+  return
 fi
 
 # Copyright 2016 The Kubernetes Authors.
