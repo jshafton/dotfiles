@@ -1,4 +1,4 @@
-if hash nvim >/dev/null; then
+if hash nvim 2>/dev/null; then
   export EDITOR="nvim"
 else
   export EDITOR="vim"
