@@ -1,10 +1,6 @@
----
-
 - clean:
     - "~"
-
 - link:
-
     # shell configuration
     ~/.shellrc:
       path: shellrc/
@@ -18,7 +14,6 @@
     ~/.inputrc:
       force: true
       path: shellrc/inputrc
-
     # regular dotfiles
     ~/.ackrc:
       path: .ackrc
@@ -72,7 +67,6 @@
     ~/.vimperatorrc:
       path: .vimperatorrc
       force: true
-
     # vim
     ~/.vim:
       force: true
@@ -87,17 +81,14 @@
       create: true
       force: true
       path: vimfiles/
-
     # custom scripts
     ~/bin:
       path: bin/
       force: true
-
     # asdf configuration
     ~/.asdfrc:
       path: .asdfrc
       force: true
-
     # homebrew
     ~/.brewfile:
       path: .brewfile
@@ -110,47 +101,44 @@
     ~/.default-gems:
       path: .default-gems
       force: true
-
     # node.js configuration
     ~/.default-npm-packages:
       path: .default-npm-packages
       force: true
-
     # python configuration
     ~/.default-python-packages:
       path: .default-python-packages
       force: true
-
     # tmux plugins
     ~/.tmux/plugins/tpm:
       create: true
       force: true
       path: tpm
-
     # ranger file manager
     ~/.config/ranger:
       create: true
       force: true
       path: .config/ranger
-
     # vifm file manager
     ~/.config/vifm:
       create: true
       force: true
       path: .config/vifm
-
+    # vifm file manager
+    ~/.config/yamlfmt:
+      create: true
+      force: true
+      path: .config/yamlfmt
     # liquid prompt
     ~/.liquidprompt:
       create: true
       force: true
       path: liquidprompt
-
     # extrakto tpm plugin
     ~/.config/extrakto:
       create: true
       force: true
       path: .config/extrakto
-
 - shell:
-    - [ "git submodule update --init --recursive",                                           "Installing submodules" ]
-    - [ "cd fzf && ./install --bin && ./install --key-bindings --completion --no-update-rc", "Installing fzf" ]
+    - ["git submodule update --init --recursive", "Installing submodules"]
+    - ["cd fzf && ./install --bin && ./install --key-bindings --completion --no-update-rc", "Installing fzf"]
