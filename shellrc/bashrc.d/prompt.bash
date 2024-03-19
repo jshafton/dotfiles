@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 if [ ! -f "$HOME/.liquidprompt/liquidprompt" ]; then
-  exit;
+  exit
 fi
 
 #############
@@ -142,9 +142,40 @@ export LP_RUNTIME_BELL_THRESHOLD=10
 # Recommended value is 1
 export LP_ENABLE_VIRTUALENV=1
 
+# Display the ruby virtual env that is currently activated, if any
+# Recommended value is 1
+export LP_ENABLE_RUBY_VENV=1
+
+# If using RVM, personalize the rvm-prompt.
+# see http://rvm.io/workflow/prompt for details.
+# Warning, this variable must be a shell array.
+# export LP_RUBY_RVM_PROMPT_OPTIONS=(i v g s)
+
+# Display the terraform workspace that is currently activated, if any
+# Recommended value is 0
+export LP_ENABLE_TERRAFORM=1
+
 # Display the enabled software collections, if any
 # Recommended value is 1
 export LP_ENABLE_SCLS=1
+
+# Show current Kubernetes kubectl context
+export LP_ENABLE_KUBECONTEXT=1
+
+# Delimiter to shorten kubectl context by removing a suffix.
+# E.g. when your context names are dev-cluster and test-cluster, set to "-"
+# in order to output "dev" and "test" in prompt.
+export LP_DELIMITER_KUBECONTEXT_SUFFIX=
+
+# Delimiter to shorten kubectl context by removing a prefix.
+# E.g. when your context names are like
+# arn:aws:eks:$REGION:$ACCOUNT_ID:cluster/$CLUSTER_NAME, set to "/"
+# in order to output "$CLUSTER_NAME" in prompt.
+export LP_DELIMITER_KUBECONTEXT_PREFIX=
+
+# Display the current active AWS_PROFILE, if any
+# Recommended value is 1
+export LP_ENABLE_AWS_PROFILE=1
 
 # Show highest system temperature
 export LP_ENABLE_TEMP=0
