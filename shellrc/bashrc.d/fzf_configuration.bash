@@ -16,11 +16,10 @@ export FZF_DEFAULT_OPTS="
   --bind 'ctrl-b:preview-page-up'
 "
 # --preview-window 'right:60%:hidden'
-  #   ctrl-b:preview-page-up,ctrl-f:preview-page-down, \
-  #   ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down, \
-  #   shift-up:preview-top,shift-down:preview-bottom, \
-  #   alt-up:half-page-up,alt-down:half-page-down
-
+#   ctrl-b:preview-page-up,ctrl-f:preview-page-down, \
+#   ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down, \
+#   shift-up:preview-top,shift-down:preview-bottom, \
+#   alt-up:half-page-up,alt-down:half-page-down
 
 # dracula color scheme
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
@@ -31,14 +30,6 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 
 # ctrl-r (shell history) has no file to preview
 export FZF_CTRL_R_OPTS="--preview ''"
-
-# use tmuxp popups on macos
-if [ -n "$TMUX" ] && [[ "$(uname)" == "Darwin" ]]; then
-  # export FZF_TMUX_OPTS="-p"
-  export FZF_TMUX=1
-else
-  export FZF_TMUX=0
-fi
 
 # ALT-C - cd into the selected directory
 bind -m emacs-standard '"ç": " \C-b\C-k \C-u`__fzf_cd__`\e\C-e\er\C-m\C-y\C-h\e \C-y\ey\C-x\C-x\C-d"'
