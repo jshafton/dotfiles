@@ -27,6 +27,9 @@
     ~/.lazygit:
       path: .lazygit
       force: true
+    ~/.wezterm.lua:
+      path: .wezterm.lua
+      force: true
     ~/.gitconfig.local:
       path: .gitconfig.osx
       if: '[ $( uname ) = Darwin ]'
