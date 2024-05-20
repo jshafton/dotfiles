@@ -26,3 +26,6 @@ vifm/vifm-help.txt
 vifm/vifminfo.json
 installed.brewfile
 k9s/clusters/*
+
+# default to ignoring environment configs
+.envrc
