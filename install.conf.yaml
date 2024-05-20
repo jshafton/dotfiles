@@ -77,13 +77,14 @@
     ~/.vimrc:
       force: true
       path: vimfiles/vimrc
-    ~/.gvimrc:
-      force: true
-      path: vimfiles/gvimrc
     ~/.config/nvim:
       create: true
       force: true
       path: vimfiles/
+    ~/.config/k9s:
+      create: true
+      force: true
+      path: k9s/
     # custom scripts
     ~/bin:
       path: bin/

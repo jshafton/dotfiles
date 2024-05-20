@@ -7,7 +7,6 @@ else
 fi
 
 export FZF_DEFAULT_OPTS="
-  --exact
   --preview '$_fzf_preview_command'
   --bind '?:toggle-preview'
   --bind 'ctrl-u:page-up'
