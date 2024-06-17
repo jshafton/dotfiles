@@ -143,6 +143,11 @@
       create: true
       force: true
       path: .config/extrakto
+    # yazi file manager
+    ~/.config/yazi:
+      create: true
+      force: true
+      path: .config/yazi
 - shell:
     - ["git submodule update --init --recursive", "Installing submodules"]
     - ["cd fzf && ./install --bin && ./install --key-bindings --completion --no-update-rc", "Installing fzf"]
