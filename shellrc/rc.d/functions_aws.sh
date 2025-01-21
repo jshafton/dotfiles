@@ -1,4 +1,3 @@
-
 function ec2-ip-from-id() {
   echo $(aws ec2 describe-instances --region us-east-1 --instance-ids $1 --output text --query 'Reservations[*].Instances[*].PrivateIpAddress')
 }
@@ -12,28 +11,28 @@ function ec2-id-from-tags() {
 
   filter="$@"
 
-  ec2_data=$( \
+  ec2_data=$(
     aws ec2 describe-instances \
       --region us-east-1 \
       --query 'Reservations[*].Instances[*].{Tags:Tags, ID:InstanceId, IP:PrivateIpAddress, InstanceType:InstanceType}' \
       --filters "Name=instance-state-name,Values=running"
   )
 
-  selected_instance=$( \
-    echo "$ec2_data" \
-    | jq -r '.[][] | select(.Tags != null) | [ "ID=\(.ID)", "IP=\(.IP)", "InstanceType=\(.InstanceType)", (.Tags | map("\(.Key)=\(.Value|tostring)") | sort | join("|")) ] | join("|")' \
-    | sort \
-    | fzf \
-      --prompt="Select instance > " \
-      --query "$filter" \
-      -m \
-      --preview "echo {} | sed 's/|/\r\n/g'"
+  selected_instance=$(
+    echo "$ec2_data" |
+      jq -r '.[][] | select(.Tags != null) | [ "ID=\(.ID)", "IP=\(.IP)", "InstanceType=\(.InstanceType)", (.Tags | map("\(.Key)=\(.Value|tostring)") | sort | join("|")) ] | join("|")' |
+      sort |
+      fzf \
+        --prompt="Select instance > " \
+        --query "$filter" \
+        -m \
+        --preview "echo {} | sed 's/|/\r\n/g'"
   )
 
-  echo "$selected_instance"  \
-    | tr '\n' '|' \
-    | tr ' ' '|' \
-    | awk -v RS='|' -F '=' '$1=="ID" { print $2 }'
+  echo "$selected_instance" |
+    tr '\n' '|' |
+    tr ' ' '|' |
+    awk -v RS='|' -F '=' '$1=="ID" { print $2 }'
 }
 
 function ec2-ip-from-tags() {
@@ -41,44 +40,44 @@ function ec2-ip-from-tags() {
 
   filter="$@"
 
-  ec2_data=$( \
+  ec2_data=$(
     aws ec2 describe-instances \
       --region us-east-1 \
       --query 'Reservations[*].Instances[*].{Tags:Tags, IP:PrivateIpAddress, PublicIP:PublicIpAddress, InstanceType:InstanceType}' \
       --filters "Name=instance-state-name,Values=running"
   )
 
-  selected_instance=$( \
-    echo "$ec2_data" \
-    | jq -r '.[][] | select(.Tags != null) | [ "IP=\(.IP)", "PublicIP=\(.PublicIP)", "InstanceType=\(.InstanceType)", (.Tags | map("\(.Key)=\(.Value|tostring)") | sort | join("|")) ] | join("|")' \
-    | sort \
-    | fzf \
-      --prompt="Select instance > " \
-      --query "$filter" \
-      --preview "echo {} | sed 's/|/\r\n/g'"
+  selected_instance=$(
+    echo "$ec2_data" |
+      jq -r '.[][] | select(.Tags != null) | [ "IP=\(.IP)", "PublicIP=\(.PublicIP)", "InstanceType=\(.InstanceType)", (.Tags | map("\(.Key)=\(.Value|tostring)") | sort | join("|")) ] | join("|")' |
+      sort |
+      fzf \
+        --prompt="Select instance > " \
+        --query "$filter" \
+        --preview "echo {} | sed 's/|/\r\n/g'"
   )
 
   echo "$selected_instance" | awk -v RS='|' -F '=' '$1=="IP" { print $2 }'
 }
 
 function ec2-get-environment-name() {
-  aws ec2 describe-tags --filters "Name=key,Values=environment" "Name=resource-type,Values=instance" --query 'Tags[*].[Value]' --output text | sort -u | fzf | pbcopy
+  aws ec2 describe-tags --filters "Name=key,Values=environment" "Name=resource-type,Values=instance" --query 'Tags[*].[Value]' --output text | sort -u | fzf | tr -d '\n' | pbcopy
 }
 
 function rds-find-endpoint {
   local rds_data selected_instance
 
-  rds_data=$( \
+  rds_data=$(
     aws rds describe-db-clusters \
       --region us-east-1 \
       --query 'DBClusters[*].[Endpoint]' \
       --output text
   )
 
-  selected_instance=$( \
-    echo "$rds_data" \
-    | sort \
-    | fzf --prompt="Select cluster > " \
+  selected_instance=$(
+    echo "$rds_data" |
+      sort |
+      fzf --prompt="Select cluster > "
   )
 
   echo "$selected_instance"
@@ -89,17 +88,17 @@ function redshift-endpoint-from-tags() {
 
   filter="$@"
 
-  redshift_data=$( \
+  redshift_data=$(
     aws redshift describe-clusters \
       --region us-east-1 \
       --query 'Clusters[*].{Tags:Tags, Endpoint:Endpoint.Address}'
   )
 
-  selected_instance=$( \
-    echo "$redshift_data" \
-    | jq -r '.[][] | select(.Tags != null) | [ "ID=\(.ID)", (.Tags | map("\(.Key)=\(.Value|tostring)") | sort | join("|")) ] | join("|")' \
-    | sort \
-    | fzf --prompt="Select instance > " --query "$filter" \
+  selected_instance=$(
+    echo "$redshift_data" |
+      jq -r '.[][] | select(.Tags != null) | [ "ID=\(.ID)", (.Tags | map("\(.Key)=\(.Value|tostring)") | sort | join("|")) ] | join("|")' |
+      sort |
+      fzf --prompt="Select instance > " --query "$filter"
   )
 
   echo "$selected_instance" | awk -v RS='|' -F '=' '$1=="ID" { print $2 }'
@@ -169,21 +168,21 @@ function ec2-asg-name-from-tags() {
 
   filter="$@"
 
-  ec2_data=$( \
+  ec2_data=$(
     aws autoscaling describe-auto-scaling-groups \
       --region us-east-1 \
       --query 'AutoScalingGroups[*].{Tags:Tags, Name:AutoScalingGroupName, DesiredCapacity:DesiredCapacity, MinSize:MinSize, MaxSize:MaxSize}'
   )
 
-    echo "$ec2_data" \
-    | jq -r '.[] | select(.Tags != null) | [ "Name=\(.Name)", "Desired=\(.DesiredCapacity)", "MinSize=\(.MinSize)", "MaxSize=\(.MaxSize)", (.Tags | map("\(.Key)=\(.Value|tostring)") | sort | join("|")) ] | join("|")' \
-    | sort \
-    | fzf \
+  echo "$ec2_data" |
+    jq -r '.[] | select(.Tags != null) | [ "Name=\(.Name)", "Desired=\(.DesiredCapacity)", "MinSize=\(.MinSize)", "MaxSize=\(.MaxSize)", (.Tags | map("\(.Key)=\(.Value|tostring)") | sort | join("|")) ] | join("|")' |
+    sort |
+    fzf \
       --prompt="Select asg > " \
       --query "$filter" \
       -m \
-      --preview "echo {} | sed 's/|/\r\n/g'" \
-    | tr '\n' '|' \
-    | tr ' ' '|' \
-    | awk -v RS='|' -F '=' '$1=="Name" { print $2 }'
+      --preview "echo {} | sed 's/|/\r\n/g'" |
+    tr '\n' '|' |
+    tr ' ' '|' |
+    awk -v RS='|' -F '=' '$1=="Name" { print $2 }'
 }
