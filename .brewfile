@@ -60,7 +60,7 @@ brew "php", args: ["ignore-dependencies"]
 cask "authy"
 cask "datagrip"
 cask "dash"
-cask "kitty"
+cask "wezterm"
 cask "karabiner-elements"
 
 # personal apps
@@ -74,10 +74,7 @@ cask "signal"
 cask "calibre"
 cask "kindle"
 cask "send-to-kindle"
-cask "transmission"
 cask "notion"
-cask "spotify"
-cask "spotify-now-playing"
 cask "google-drive"
 cask "shottr"
 
@@ -86,6 +83,7 @@ cask "bartender"
 cask "daisydisk"
 cask "istat-menus"
 cask "alfred"
+cask "bitwarden"
 
 brew "tmuxinator-completion"
 
@@ -105,4 +103,3 @@ cask "font-victor-mono-nerd-font"
 brew "mas" # required for using mas in a brewfile
 mas "HyperDock",              id: 449830122
 mas "Paprika Recipe Manager", id: 1303222628
-mas "Bitwarden",              id: 1352778147

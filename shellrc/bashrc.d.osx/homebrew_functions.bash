@@ -15,7 +15,7 @@ if hash fzf 2>/dev/null; then
   # Update (one or multiple) selected application(s)
   # mnemonic [B]rew [U]pdate [P]lugin
   bup() {
-    local upd=$(brew outdated | fzf -m --reverse --preview 'brew info {}')
+    local upd=$(brew outdated --greedy | fzf -m --reverse --preview 'brew info {}')
 
     if [[ $upd ]]; then
       for prog in $(echo $upd); do
