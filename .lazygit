@@ -1,4 +1,3 @@
----
 git:
   paging:
     colorArg: always
@@ -7,8 +6,8 @@ git:
     mode: rebase
   commitPrefixes:
     ansible:
-      pattern: "^(\\d+)-(.+)"
-      replace: '$1 '
+      - pattern: "^(\\d+)-(.+)"
+        replace: '$1 '
   branchLogCmd: "git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium --oneline {{branchName}} --"
 gui:
   scrollHeight: 10 # how many lines you scroll by
