@@ -11,7 +11,7 @@ config.window_background_opacity = 0.95
 config.window_decorations = "RESIZE"
 config.hide_tab_bar_if_only_one_tab = true
 
-config.font = wezterm.font("JetBrainsMono Nerd Font Mono")
+config.font = wezterm.font("VictorMono Nerd Font Mono")
 config.font_size = 12.5
 
 config.send_composed_key_when_left_alt_is_pressed = true
