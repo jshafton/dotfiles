@@ -1,12 +1,10 @@
 boto
 httpie
 yamllint
-vim-vint
-ranger-fm
 pynvim
 neovim
-awslogs
 jedi
 python-language-server
 pgcli
 pgcli[sshtunnel]
+aider-install
