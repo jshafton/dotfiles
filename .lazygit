@@ -33,3 +33,5 @@ customCommands:
         initialValue: ''
     command: "git checkout master && git pull && git checkout -b {{index .PromptResponses 0}}"
     loadingText: "Creating branch"
+os:
+  editPreset: nvim-remote
