@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 if [ ! -f "$HOME/.liquidprompt/liquidprompt" ]; then
-  exit
+    exit
 fi
 
 #############
@@ -84,7 +84,7 @@ export LP_ENABLE_LOAD=1
 
 # Enable the battery feature.
 # Recommended value is 1
-export LP_ENABLE_BATT=1
+export LP_ENABLE_BATT=0
 
 # Enable the 'sudo credentials' feature.
 # Be warned that this may pollute the syslog if you don't have sudo
