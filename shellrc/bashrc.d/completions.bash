@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Load system bash completion first
+[ -f /etc/bash_completion ] && source /etc/bash_completion
+
 # Add in all the completions installed with homebrew
 if type brew &>/dev/null; then
   if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
@@ -14,5 +17,3 @@ fi
 if type aws_completer &>/dev/null; then
   complete -C "aws_completer" aws
 fi
-
-[ -f /etc/bash_completion ] && source /etc/bash_completion || true

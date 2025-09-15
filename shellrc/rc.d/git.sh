@@ -6,12 +6,17 @@ fi
 
 __git_shortcut() {
   alias "$1"="git $2 $3"
-  __git_complete "$1" "git_$2"
+  # Only set up completion if __git_complete is available
+  if declare -f __git_complete >/dev/null 2>&1; then
+    __git_complete "$1" "git_$2"
+  fi
 }
 
 alias g="git"
-__git_complete g git
-__git_complete git __git_main
+if declare -f __git_complete >/dev/null 2>&1; then
+  __git_complete g git
+  __git_complete git __git_main
+fi
 
 # Alias and set up tab completion
 __git_shortcut ga add
