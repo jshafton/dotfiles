@@ -70,7 +70,7 @@ plugins:
     background: false
     args:
       - -c
-      - "kubectl cnpg backup $NAME -n $NAMESPACE --context \"$CONTEXT\" |& less -R"
+      - "kubectl cnpg backup $NAME -n $NAMESPACE --context \"$CONTEXT\" 2>&1 | less -R"
   cnpg-hibernate-status:
     shortCut: h
     description: Hibernate status
@@ -80,7 +80,7 @@ plugins:
     background: false
     args:
       - -c
-      - "kubectl cnpg hibernate status $NAME -n $NAMESPACE --context \"$CONTEXT\" |& less -R"
+      - "kubectl cnpg hibernate status $NAME -n $NAMESPACE --context \"$CONTEXT\" 2>&1 | less -R"
   cnpg-hibernate:
     shortCut: Shift-H
     description: Hibernate
@@ -91,7 +91,7 @@ plugins:
     background: false
     args:
       - -c
-      - "kubectl cnpg hibernate on $NAME -n $NAMESPACE --context \"$CONTEXT\" |& less -R"
+      - "kubectl cnpg hibernate on $NAME -n $NAMESPACE --context \"$CONTEXT\" 2>&1 | less -R"
   cnpg-hibernate-off:
     shortCut: Shift-H
     description: Wake up hibernated cluster in this namespace
@@ -102,10 +102,20 @@ plugins:
     background: false
     args:
       - -c
-      - "kubectl cnpg hibernate off $NAME -n $NAME --context \"$CONTEXT\" |& less -R"
+      - "kubectl cnpg hibernate off $NAME -n $NAME --context \"$CONTEXT\" 2>&1 | less -R"
   cnpg-logs:
     shortCut: l
     description: Logs
+    scopes:
+      - cluster
+    command: bash
+    background: false
+    args:
+      - -c
+      - "kubectl cnpg logs cluster $NAME -f -n $NAMESPACE --context $CONTEXT"
+  cnpg-logs-pretty:
+    shortCut: Shift-L
+    description: Logs pretty
     scopes:
       - cluster
     command: bash
@@ -133,7 +143,7 @@ plugins:
     background: false
     args:
       - -c
-      - "kubectl cnpg reload $NAME -n $NAMESPACE --context \"$CONTEXT\" |& less -R"
+      - "kubectl cnpg reload $NAME -n $NAMESPACE --context \"$CONTEXT\" 2>&1 | less -R"
   cnpg-restart:
     shortCut: Shift-R
     description: Restart
@@ -144,17 +154,17 @@ plugins:
     background: false
     args:
       - -c
-      - "kubectl cnpg restart $NAME -n $NAMESPACE --context \"$CONTEXT\" |& less -R"
-  cnpg-status:
-    shortCut: s
-    description: Status
-    scopes:
-      - cluster
-    command: bash
-    background: false
-    args:
-      - -c
-      - "kubectl cnpg status $NAME -n $NAMESPACE --context \"$CONTEXT\" |& less -R"
+      - "kubectl cnpg restart $NAME -n $NAMESPACE --context \"$CONTEXT\" 2>&1 | less -R"
+  # cnpg-status:
+  #   shortCut: s
+  #   description: Status
+  #   scopes:
+  #     - cluster
+  #   command: bash
+  #   background: false
+  #   args:
+  #     - -c
+  #     - "kubectl cnpg status $NAME -n $NAMESPACE --context \"$CONTEXT\" 2>&1 | less -R"
   cnpg-status-verbose:
     shortCut: Shift-S
     description: Status (verbose)
@@ -164,4 +174,3 @@ plugins:
     background: false
     args:
       - -c
-      - "kubectl cnpg status $NAME -n $NAMESPACE --context \"$CONTEXT\" --verbose |& less -R"
