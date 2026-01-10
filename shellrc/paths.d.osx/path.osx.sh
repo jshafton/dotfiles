@@ -1,5 +1,11 @@
 #! /usr/bin/env bash
 
+# asdf sets up necessary shims for paths and completions
+# Source FIRST so subsequent path_prepend calls put paths above asdf
+if [ -f "${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh" ]; then
+  . "${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh"
+fi
+
 # libpq includes psql and other utils
 if [ -d "${HOMEBREW_PREFIX}/opt/libpq/bin" ]; then
   path_prepend "${HOMEBREW_PREFIX}/opt/libpq/bin"
@@ -10,7 +16,7 @@ if [ -d "${HOMEBREW_PREFIX}/opt/openjdk/bin" ]; then
   path_prepend "${HOMEBREW_PREFIX}/opt/openjdk/bin"
 fi;
 
-# TODO: remove this? make it not-OS-specific?
+# GNU coreutils and findutils - prepend to override system versions
 if [ -d "${HOMEBREW_PREFIX}/opt/coreutils/libexec" ]; then
   export GNU_COREUTILS_PATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin"
   export GNU_COREUTILS_MANPATH="${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnuman"
@@ -26,10 +32,5 @@ if [ -d "$GNU_FINDUTILS_PATH" ]; then
 fi
 
 if [ -d "$GNU_COREUTILS_MANPATH" ]; then
-  export MANPATH="$GNU_COREUTILS_MANPATH:$PATH"
+  export MANPATH="$GNU_COREUTILS_MANPATH:$MANPATH"
 fi;
-
-# asdf sets up necessary shims for paths and completions
-if [ -f "${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh" ]; then
-  . "${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh"
-fi
