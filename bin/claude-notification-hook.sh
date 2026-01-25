@@ -1,0 +1,1 @@
+/Users/shafjac/dotfiles/bin.osx/claude-notification-hook.sh
