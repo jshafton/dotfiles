@@ -29,3 +29,4 @@ k9s/clusters/*
 
 # default to ignoring environment configs
 .envrc
+.claude/settings.local.json
