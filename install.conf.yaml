@@ -98,9 +98,10 @@
       path: bin.osx/claude-switch-to-last.sh
       if: '[ $( uname ) = Darwin ]'
       force: true
-    # asdf configuration
-    ~/.asdfrc:
-      path: .asdfrc
+    # mise configuration
+    ~/.config/mise:
+      create: true
+      path: .config/mise
       force: true
     # homebrew
     ~/.brewfile:

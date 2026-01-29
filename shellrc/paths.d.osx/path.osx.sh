@@ -1,10 +1,6 @@
 #! /usr/bin/env bash
 
-# asdf sets up necessary shims for paths and completions
-# Source FIRST so subsequent path_prepend calls put paths above asdf
-if [ -f "${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh" ]; then
-  . "${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh"
-fi
+# mise activation is handled in rc.d/mise.sh
 
 # libpq includes psql and other utils
 if [ -d "${HOMEBREW_PREFIX}/opt/libpq/bin" ]; then

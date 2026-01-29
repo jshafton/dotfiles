@@ -1,6 +1,6 @@
 brew "act"
 brew "actionlint"
-brew "asdf"
+brew "mise"
 brew "bash-completion"
 brew "bat"
 brew "broot"

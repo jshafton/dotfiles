@@ -1,0 +1,15 @@
+# Global mise configuration
+# https://mise.jdx.dev/
+
+[settings]
+# Read .tool-versions files (asdf legacy format)
+legacy_version_file = true
+# Always install missing tools when entering a directory
+auto_install = true
+
+[tools]
+# Default global tools - override per-project as needed
+node = "lts"
+python = "latest"
+go = "latest"
+rust = "latest"
