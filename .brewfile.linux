@@ -69,11 +69,9 @@ brew "bitwarden-cli"
 brew "curl"
 brew "wget"
 brew "mtr"
-brew "hping"
 brew "ngrep"
 brew "iftop"
 brew "nmap"
-brew "elinks"
 
 # Dev utilities
 brew "jq"
@@ -121,8 +119,7 @@ brew "protobuf"
 brew "less"
 
 # Misc utilities
-brew "rename"
 brew "psgrep"
 
 # AI tools
-brew "codex"
+cask "codex"
