@@ -9,7 +9,6 @@ brew "tmux"
 brew "tmuxinator-completion"
 brew "mosh"
 brew "zoxide"
-brew "fasd"
 brew "direnv"
 
 # Search/Navigation
