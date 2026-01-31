@@ -5,6 +5,14 @@
 # that can't tolerate any output. so make sure this doesn't display
 # anything or bad things will happen !
 
+# source all files matching pattern in a directory
+# NOTE: defined early so .bash_profile can use it in non-interactive shells
+source_dir() {
+  local dir="$1" ext="$2"
+  local files=("$dir"/*."$ext")
+  [[ -e "${files[0]}" ]] && for f in "${files[@]}"; do source "$f"; done
+}
+
 # test for an interactive shell. there is no need to set anything
 # past this point for scp and rcp, and it's important to refrain from
 # outputting anything in those cases.
@@ -14,12 +22,6 @@ if [[ $- != *i* ]] ; then
 fi
 
 shopt -s nullglob
-
-# source all files matching pattern in a directory
-source_dir() {
-  local dir="$1" ext="$2"
-  [[ -d "$dir" ]] && for f in "$dir"/*."$ext"; do source "$f"; done
-}
 
 # PATH setup
 source_dir "$HOME/.shellrc/paths.d" sh
