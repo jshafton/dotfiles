@@ -7,4 +7,4 @@ jedi
 python-language-server
 pgcli
 pgcli[sshtunnel]
-aider-install
+psycopg-binary
