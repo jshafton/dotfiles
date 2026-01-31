@@ -5,6 +5,7 @@
 
 if command -v mise &>/dev/null; then
   eval "$(mise activate bash)"
+  eval "$(mise completion bash)"
 
   # mp - mise prod: run mise tasks in production environment
   mp() {
