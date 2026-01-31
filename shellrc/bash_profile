@@ -1,21 +1,7 @@
-if [ -f $HOME/.bashrc ]; then
-  source $HOME/.bashrc
+if [ -f "$HOME/.bashrc" ]; then
+  source "$HOME/.bashrc"
 fi
 
-shopt -s nullglob
-
-# load all files from .shell/login.d directory
-if [ -d $HOME/.shellrc/login.d ]; then
-  for file in $HOME/.shellrc/login.d/*.sh; do
-    [ -e "$file" ] && source $file
-  done
-fi
-
-# load all files from .shell/login.d directory
-if [[ "$(uname)" == "Darwin" ]]; then
-  if [ -d $HOME/.shellrc/login.d.osx ]; then
-    for file in $HOME/.shellrc/login.d.osx/*.sh; do
-      [ -e "$file" ] && source $file
-    done
-  fi
-fi
+# login-specific config (source_dir defined in bashrc)
+source_dir "$HOME/.shellrc/login.d" sh
+[[ "$(uname)" == "Darwin" ]] && source_dir "$HOME/.shellrc/login.d.osx" sh
