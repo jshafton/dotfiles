@@ -93,14 +93,14 @@
       path: bin/
       force: true
     # macOS-only scripts
-    ~/bin/claude-notification-hook.sh:
-      path: bin.osx/claude-notification-hook.sh
-      if: '[ $( uname ) = Darwin ]'
-      force: true
-    ~/bin/claude-switch-to-last.sh:
-      path: bin.osx/claude-switch-to-last.sh
-      if: '[ $( uname ) = Darwin ]'
-      force: true
+    # ~/bin/claude-notification-hook.sh:
+    #   path: bin.osx/claude-notification-hook.sh
+    #   if: '[ $( uname ) = Darwin ]'
+    #   force: true
+    # ~/bin/claude-switch-to-last.sh:
+    #   path: bin.osx/claude-switch-to-last.sh
+    #   if: '[ $( uname ) = Darwin ]'
+    #   force: true
     # mise configuration
     ~/.config/mise:
       create: true
