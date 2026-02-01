@@ -37,6 +37,9 @@
     ~/.gitignore:
       path: .gitignore
       force: true
+    ~/.gitmux.conf:
+      path: .gitmux.conf
+      force: true
     ~/.gitmodules:
       path: .gitmodules
       force: true
