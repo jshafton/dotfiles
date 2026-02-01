@@ -31,5 +31,8 @@ k9s/clusters/*
 .envrc
 .claude/settings.local.json
 
+# local git worktrees
+.worktrees/
+
 # Private raycast scripts (contain hostnames)
 bin/raycast/private/

@@ -12,13 +12,81 @@ config.color_scheme = "Sonokai (Gogh)"
 config.window_background_opacity = 1.0
 config.window_decorations = "RESIZE"
 config.hide_tab_bar_if_only_one_tab = true
+config.window_padding = {
+  bottom = 0,
+}
+local tomorrow_night = {
+  foreground = '#c5c8c6',
+  background = '#1d1f21',
+  highlight = '#373b41',
+  status_line = '#282a2e',
+  comment = '#969896',
+  red = '#cc6666',
+  orange = '#de935f',
+  yellow = '#f0c674',
+  green = '#b5bd68',
+  aqua = '#8abeb7',
+  blue = '#81a2be',
+  purple = '#b294bb',
+  pane = '#4d5057',
+}
 
-config.font = wezterm.font("JetBrains Mono", { weight = 'DemiLight' }) -- VictorMono Nerd Font Mono
+config.colors = {
+  foreground = tomorrow_night.foreground,
+  ansi = {
+    tomorrow_night.background,
+    tomorrow_night.red,
+    tomorrow_night.green,
+    tomorrow_night.yellow,
+    tomorrow_night.blue,
+    tomorrow_night.purple,
+    tomorrow_night.aqua,
+    tomorrow_night.foreground,
+  },
+  brights = {
+    tomorrow_night.status_line,
+    tomorrow_night.red,
+    tomorrow_night.green,
+    tomorrow_night.yellow,
+    tomorrow_night.blue,
+    tomorrow_night.purple,
+    tomorrow_night.aqua,
+    tomorrow_night.highlight,
+  },
+  tab_bar = {
+    background = tomorrow_night.status_line,
+    active_tab = {
+      bg_color = tomorrow_night.purple,
+      fg_color = tomorrow_night.background,
+      intensity = 'Bold',
+    },
+    inactive_tab = {
+      bg_color = tomorrow_night.status_line,
+      fg_color = tomorrow_night.comment,
+    },
+    inactive_tab_hover = {
+      bg_color = tomorrow_night.highlight,
+      fg_color = tomorrow_night.foreground,
+      italic = true,
+    },
+    new_tab = {
+      bg_color = tomorrow_night.status_line,
+      fg_color = tomorrow_night.comment,
+    },
+    new_tab_hover = {
+      bg_color = tomorrow_night.highlight,
+      fg_color = tomorrow_night.foreground,
+      italic = true,
+    },
+  },
+}
+
+-- config.font = wezterm.font("JetBrains Mono", { weight = 'DemiLight' }) -- VictorMono Nerd Font Mono
 -- other fonts:
--- config.font = wezterm.font("VictorMono Nerd Font Mono", { weight = 'Medium' })
+config.font = wezterm.font("VictorMono Nerd Font Mono", { weight = 'Medium' })
 
-config.font_size = 12.5
-config.line_height = 1.05
+config.font_size = 13.5
+config.line_height = 1.10
 
 config.send_composed_key_when_left_alt_is_pressed = true
 config.send_composed_key_when_right_alt_is_pressed = true
@@ -44,7 +112,8 @@ wezterm.on('user-var-changed', function(window, pane, name, value)
       wezterm.log_error('claude_notify: failed to parse JSON: ' .. tostring(value):sub(1, 200))
       return
     end
-    wezterm.log_info('claude_notify: parsed data - project=' .. tostring(data.project) .. ' hostname=' .. tostring(data.hostname))
+    wezterm.log_info('claude_notify: parsed data - project=' ..
+      tostring(data.project) .. ' hostname=' .. tostring(data.hostname))
 
     -- Build notification text
     local subtitle = data.project or 'Claude'
@@ -86,8 +155,47 @@ wezterm.on('user-var-changed', function(window, pane, name, value)
   end
 end)
 
+local tab_palette = {
+  base = tomorrow_night.status_line,
+  accent = tomorrow_night.purple,
+  text = tomorrow_night.foreground,
+  bright = tomorrow_night.foreground,
+  separator = tomorrow_night.highlight,
+  alert_bg = tomorrow_night.red,
+  alert_fg = tomorrow_night.background,
+}
+
+local function tab_title(tab_info)
+  if tab_info.tab_title and #tab_info.tab_title > 0 then
+    return tab_info.tab_title
+  end
+  return tab_info.active_pane.title
+end
+
+local function format_tab(title, is_active)
+  local bg = tab_palette.base
+  local fg = tab_palette.text
+  local intensity = 'Normal'
+  if is_active then
+    bg = tab_palette.accent
+    fg = tab_palette.base
+    intensity = 'Bold'
+  end
+
+  return {
+    { Background = { Color = bg } },
+    { Foreground = { Color = fg } },
+    { Attribute = { Intensity = intensity } },
+    { Text = ' ' .. title .. ' ' },
+    { Background = { Color = tab_palette.base } },
+    { Foreground = { Color = tab_palette.separator } },
+    { Attribute = { Intensity = 'Normal' } },
+    { Text = '▏' },
+  }
+end
+
 wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
-  local title = tab.active_pane.title
+  local title = tab_title(tab)
 
   -- Check if any pane in this tab has a pending notification
   for _, pane_info in ipairs(tab.panes) do
@@ -96,15 +204,20 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
         pending_claude_notifications[tostring(pane_info.pane_id)] = nil
       else
         return {
-          { Background = { Color = '#e6a000' } },
-          { Foreground = { Color = '#1a1a1a' } },
+          { Background = { Color = tab_palette.alert_bg } },
+          { Foreground = { Color = tab_palette.alert_fg } },
+          { Attribute = { Intensity = 'Bold' } },
           { Text = ' ⚡ ' .. title .. ' ' },
+          { Background = { Color = tab_palette.base } },
+          { Foreground = { Color = tab_palette.separator } },
+          { Attribute = { Intensity = 'Normal' } },
+          { Text = '▏' },
         }
       end
     end
   end
 
-  return title
+  return format_tab(title, tab.is_active)
 end)
 
 -- and finally, return the configuration to wezterm
