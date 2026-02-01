@@ -85,8 +85,8 @@ config.colors = {
 -- other fonts:
 config.font = wezterm.font("VictorMono Nerd Font Mono", { weight = 'Medium' })
 
-config.font_size = 13.5
-config.line_height = 1.10
+config.font_size = 12.5
+config.line_height = 1.05
 
 config.send_composed_key_when_left_alt_is_pressed = true
 config.send_composed_key_when_right_alt_is_pressed = true
