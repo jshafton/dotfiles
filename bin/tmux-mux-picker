@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# tmuxinator profile picker with fzf
+# Used by tmux prefix+t binding via display-popup
+
+command -v tmuxinator >/dev/null 2>&1 || { echo "tmuxinator not found"; sleep 2; exit 1; }
+command -v fzf >/dev/null 2>&1 || { echo "fzf not found"; sleep 2; exit 1; }
+
+profiles=$(tmuxinator list -n | tail -n +2 | tr " " "\n" | sed '/^$/d')
+[ -z "$profiles" ] && { echo "No tmuxinator profiles found"; sleep 2; exit 1; }
+
+sessions=$(tmux list-sessions -F '#S' 2>/dev/null || true)
+
+# Sort running sessions to the top
+running=""
+stopped=""
+for p in $profiles; do
+  if echo "$sessions" | grep -qx "$p"; then
+    running="${running}* ${p}\n"
+  else
+    stopped="${stopped}  ${p}\n"
+  fi
+done
+display=$(printf "%b%b" "$running" "$stopped" | sed '/^$/d')
+
+preview_cmd='
+  name=$(echo {} | sed "s/^[* ] //")
+  if tmux has-session -t "=$name" 2>/dev/null; then
+    wins=$(tmux list-windows -t "=$name" 2>/dev/null | wc -l)
+    att=$(tmux list-clients -t "=$name" 2>/dev/null | wc -l)
+    if [ "$att" -gt 0 ]; then state="attached"; else state="detached"; fi
+    echo "$name ($wins windows, $state)"
+    echo "─────────────────────────────────"
+    tmux list-windows -t "=$name" -F "#I: #W" | while IFS= read -r line; do
+      idx=$(echo "$line" | cut -d: -f1)
+      wname=$(echo "$line" | cut -d" " -f2)
+      cmd=$(tmux display-message -t "=$name:$idx" -p "#{pane_current_command}")
+      dir=$(tmux display-message -t "=$name:$idx" -p "#{pane_current_path}")
+      dir=$(echo "$dir" | sed "s|^$HOME|~|")
+      printf "%-3s %-12s %-14s %s\n" "$idx:" "$wname" "$cmd" "$dir"
+    done
+  else
+    echo "PROFILE CONFIG"
+    echo "─────────────────────────────────"
+    grep -v '^#' "$HOME/.config/tmuxinator/$name.yml" 2>/dev/null | grep -v '^$'
+  fi
+'
+
+selected=$(echo "$display" | fzf --ansi \
+  --prompt="tmuxinator> " \
+  --header="* = running" \
+  --bind="ctrl-c:abort,esc:abort" \
+  --preview="$preview_cmd" \
+  --preview-window=right:50%:wrap) || exit 0
+
+name=$(echo "$selected" | sed 's/^[* ] //')
+
+if tmux has-session -t "=$name" 2>/dev/null; then
+  tmux switch-client -t "=$name"
+else
+  tmuxinator start "$name" || { echo "Failed to start $name"; sleep 2; exit 1; }
+fi
