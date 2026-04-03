@@ -31,6 +31,8 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 export FZF_CTRL_R_OPTS="--preview ''"
 
 # ALT-C - cd into the selected directory
-bind -m emacs-standard '"ç": " \C-b\C-k \C-u`__fzf_cd__`\e\C-e\er\C-m\C-y\C-h\e \C-y\ey\C-x\C-x\C-d"'
+# NOTE: "ç" is what WezTerm sends for Alt-C with send_composed_key enabled.
+# The readline macro must match what `fzf --bash` uses for "\ec".
+bind -m emacs-standard '"ç": " \C-b\C-k \C-u`__fzf_cd__`\e\C-e\C-\e(\C-m\C-y\C-h\e \C-y\ey\C-x\C-x\C-d\C-y\ey\C-_"'
 bind -m vi-command '"ç": "\C-z\ec\C-z"'
 bind -m vi-insert '"ç": "\C-z\ec\C-z"'
