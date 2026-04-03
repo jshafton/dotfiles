@@ -30,6 +30,9 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 # ctrl-r (shell history) has no file to preview
 export FZF_CTRL_R_OPTS="--preview ''"
 
+# alt-c (cd) - preview directory contents instead of trying to bat a dir
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+
 # ALT-C - cd into the selected directory
 # NOTE: "ç" is what WezTerm sends for Alt-C with send_composed_key enabled.
 # The readline macro must match what `fzf --bash` uses for "\ec".
