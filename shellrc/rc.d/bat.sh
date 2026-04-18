@@ -1,1 +1,1 @@
-export BAT_THEME="Monokai Extended Bright"
+export BAT_THEME="token-dark"

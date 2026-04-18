@@ -4,8 +4,8 @@ local wezterm = require("wezterm")
 -- This will hold the configuration.
 local config = wezterm.config_builder()
 
-config.color_scheme = "Sonokai (Gogh)"
--- other color schemes:
+-- Using inline `config.colors` (token-dark) below; leave any scheme commented.
+-- config.color_scheme = "Sonokai (Gogh)"
 -- config.color_scheme = "Gruvbox Material (Gogh)"
 -- config.color_scheme = "nightfox"
 
@@ -15,67 +15,82 @@ config.hide_tab_bar_if_only_one_tab = true
 config.window_padding = {
   bottom = 0,
 }
-local tomorrow_night = {
-  foreground = '#c5c8c6',
-  background = '#1d1f21',
-  highlight = '#373b41',
-  status_line = '#282a2e',
-  comment = '#969896',
-  red = '#cc6666',
-  orange = '#de935f',
-  yellow = '#f0c674',
-  green = '#b5bd68',
-  aqua = '#8abeb7',
-  blue = '#81a2be',
-  purple = '#b294bb',
-  pane = '#4d5057',
+local token_dark = {
+  foreground = '#e8e4dc',
+  background = '#262624',
+  highlight = '#3a3a37',
+  status_line = '#1d1d1c',
+  comment = '#5a5955',
+  red = '#c67777',
+  orange = '#d97757',
+  yellow = '#c4a855',
+  green = '#7da47a',
+  aqua = '#6ba8a8',
+  blue = '#7b9ebd',
+  purple = '#a68bbf',
+  pane = '#5a5955',
+  bright_red = '#d97757',
+  bright_green = '#98bf95',
+  bright_yellow = '#c4956a',
+  bright_blue = '#96b8d3',
+  bright_purple = '#bea5d4',
+  bright_aqua = '#88c0c0',
+  bright_white = '#e8e4dc',
+  selection_bg = '#3a3a37',
+  palette_7 = '#d4cfc6',
 }
 
 config.colors = {
-  foreground = tomorrow_night.foreground,
+  foreground = token_dark.foreground,
+  background = token_dark.background,
+  cursor_bg = token_dark.foreground,
+  cursor_fg = token_dark.background,
+  cursor_border = token_dark.foreground,
+  selection_bg = token_dark.selection_bg,
+  selection_fg = token_dark.foreground,
   ansi = {
-    tomorrow_night.background,
-    tomorrow_night.red,
-    tomorrow_night.green,
-    tomorrow_night.yellow,
-    tomorrow_night.blue,
-    tomorrow_night.purple,
-    tomorrow_night.aqua,
-    tomorrow_night.foreground,
+    token_dark.status_line,
+    token_dark.red,
+    token_dark.green,
+    token_dark.yellow,
+    token_dark.blue,
+    token_dark.purple,
+    token_dark.aqua,
+    token_dark.palette_7,
   },
   brights = {
-    tomorrow_night.status_line,
-    tomorrow_night.red,
-    tomorrow_night.green,
-    tomorrow_night.yellow,
-    tomorrow_night.blue,
-    tomorrow_night.purple,
-    tomorrow_night.aqua,
-    tomorrow_night.highlight,
+    token_dark.comment,
+    token_dark.bright_red,
+    token_dark.bright_green,
+    token_dark.bright_yellow,
+    token_dark.bright_blue,
+    token_dark.bright_purple,
+    token_dark.bright_aqua,
+    token_dark.bright_white,
   },
   tab_bar = {
-    background = tomorrow_night.status_line,
+    background = token_dark.status_line,
     active_tab = {
-      bg_color = tomorrow_night.purple,
-      fg_color = tomorrow_night.background,
+      bg_color = token_dark.purple,
+      fg_color = token_dark.background,
       intensity = 'Bold',
     },
     inactive_tab = {
-      bg_color = tomorrow_night.status_line,
-      fg_color = tomorrow_night.comment,
+      bg_color = token_dark.status_line,
+      fg_color = token_dark.comment,
     },
     inactive_tab_hover = {
-      bg_color = tomorrow_night.highlight,
-      fg_color = tomorrow_night.foreground,
+      bg_color = token_dark.highlight,
+      fg_color = token_dark.foreground,
       italic = true,
     },
     new_tab = {
-      bg_color = tomorrow_night.status_line,
-      fg_color = tomorrow_night.comment,
+      bg_color = token_dark.status_line,
+      fg_color = token_dark.comment,
     },
     new_tab_hover = {
-      bg_color = tomorrow_night.highlight,
-      fg_color = tomorrow_night.foreground,
+      bg_color = token_dark.highlight,
+      fg_color = token_dark.foreground,
       italic = true,
     },
   },
@@ -156,13 +171,13 @@ wezterm.on('user-var-changed', function(window, pane, name, value)
 end)
 
 local tab_palette = {
-  base = tomorrow_night.status_line,
-  accent = tomorrow_night.purple,
-  text = tomorrow_night.foreground,
-  bright = tomorrow_night.foreground,
-  separator = tomorrow_night.highlight,
-  alert_bg = tomorrow_night.red,
-  alert_fg = tomorrow_night.background,
+  base = token_dark.status_line,
+  accent = token_dark.purple,
+  text = token_dark.foreground,
+  bright = token_dark.foreground,
+  separator = token_dark.highlight,
+  alert_bg = token_dark.red,
+  alert_fg = token_dark.background,
 }
 
 local function tab_title(tab_info)

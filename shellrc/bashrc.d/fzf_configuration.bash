@@ -20,11 +20,14 @@ export FZF_DEFAULT_OPTS="
 #   shift-up:preview-top,shift-down:preview-bottom, \
 #   alt-up:half-page-up,alt-down:half-page-down
 
-# dracula color scheme
+# token-dark color scheme
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --color=dark
-  --color=fg:-1,bg:-1,hl:#5fff87,fg+:-1,bg+:-1,hl+:#ffaf5f
-  --color=info:#af87ff,prompt:#5fff87,pointer:#ff87d7,marker:#ff87d7,spinner:#ff87d7
+  --color=fg:#e8e4dc,bg:#262624,hl:#d97757
+  --color=fg+:#e8e4dc,bg+:#3a3a37,hl+:#d97757
+  --color=border:#5a5955,header:#7b9ebd,gutter:#262624
+  --color=spinner:#c4956a,info:#938e87
+  --color=pointer:#d97757,marker:#7da47a,prompt:#d97757
 '
 
 # ctrl-r (shell history) has no file to preview

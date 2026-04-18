@@ -161,6 +161,26 @@
       create: true
       force: true
       path: .config/yazi
+    # bat: custom themes (run `bat cache --build` after first install)
+    ~/.config/bat:
+      create: true
+      force: true
+      path: .config/bat
+    # delta: token-dark theme included from .gitconfig.osx
+    ~/.config/delta:
+      create: true
+      force: true
+      path: .config/delta
+    # tmux: token-dark color overlay (sourced from .tmux.conf)
+    ~/.config/tmux/token-dark.conf:
+      create: true
+      force: true
+      path: .config/tmux/token-dark.conf
+    # ripgrep: token-dark colors (via $RIPGREP_CONFIG_PATH)
+    ~/.config/ripgrep:
+      create: true
+      force: true
+      path: .config/ripgrep
 - shell:
     - ["git submodule update --init --recursive", "Installing submodules"]
     - ["cd fzf && ./install --bin && ./install --key-bindings --completion --no-update-rc", "Installing fzf"]
