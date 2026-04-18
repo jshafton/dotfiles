@@ -16,3 +16,4 @@ rust = "latest"
 uv = "latest"
 ruby = "latest"
 "npm:typescript-language-server" = "latest"
+awscli = { version = "latest", symlink_bins = "true" }
