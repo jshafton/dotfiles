@@ -30,6 +30,7 @@ k9s/clusters/*
 # default to ignoring environment configs
 .envrc
 .claude/settings.local.json
+.claude/projects/*/memory/
 
 # local git worktrees
 .worktrees/
