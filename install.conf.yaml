@@ -166,7 +166,7 @@
       create: true
       force: true
       path: .config/bat
-    # delta: token-dark theme included from .gitconfig.osx
+    # delta: token-dark theme included from .gitconfig
     ~/.config/delta:
       create: true
       force: true

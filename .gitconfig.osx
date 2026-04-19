@@ -1,22 +1,2 @@
-[core]
-  pager = delta --dark
-
 [credential]
   helper = osxkeychain
-
-[mergetool "fugitive"]
-  cmd = nvim -f -c \"Gdiff\" \"$MERGED\"
-
-[interactive]
-  diffFilter = delta --color-only --features=interactive
-
-[include]
-  path = ~/.config/delta/token.gitconfig
-
-[delta]
-  features = token-dark
-  line-numbers-left-format = "{nm:^4} "
-  line-numbers-right-format = "{np:^4} "
-
-[delta "interactive"]
-  keep-plus-minus-markers = false
