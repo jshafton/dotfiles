@@ -26,9 +26,31 @@ WINDOW_ACTIVE=$(tmux display-message -t "$TMUX_PANE" -p '#{window_active}' 2>/de
 
 echo "$(date): flags=$CLIENT_FLAGS pane=$PANE_ACTIVE window=$WINDOW_ACTIVE" >> "$LOG"
 
+STASHED=$(tmux show-options -w -v -t "$TMUX_PANE" '@claude_original_name' 2>/dev/null)
+
 if [[ "$CLIENT_FLAGS" == *"focused"* && "$PANE_ACTIVE" == "1" && "$WINDOW_ACTIVE" == "1" ]]; then
-  echo "$(date): SKIPPED - focused" >> "$LOG"
+  # User is looking — clear any attention marker, then skip the notification.
+  if [[ -n "$STASHED" ]]; then
+    ORIG_AUTO=$(tmux show-options -w -v -t "$TMUX_PANE" '@claude_original_auto_rename' 2>/dev/null || echo "on")
+    tmux rename-window -t "$TMUX_PANE" "$STASHED" 2>/dev/null
+    tmux set-option -w -t "$TMUX_PANE" automatic-rename "$ORIG_AUTO" 2>/dev/null
+    tmux set-option -wu -t "$TMUX_PANE" '@claude_original_name' 2>/dev/null
+    tmux set-option -wu -t "$TMUX_PANE" '@claude_original_auto_rename' 2>/dev/null
+    echo "$(date): CLEARED marker on focus (restored '$STASHED', auto-rename=$ORIG_AUTO)" >> "$LOG"
+  fi
+  echo "$(date): SKIPPED notification - focused" >> "$LOG"
   exit 0
+fi
+
+# Not focused — set the attention marker on the tmux window title.
+if [[ -z "$STASHED" ]]; then
+  CURRENT_NAME=$(tmux display-message -t "$TMUX_PANE" -p '#W' 2>/dev/null)
+  ORIG_AUTO=$(tmux show-options -w -v -t "$TMUX_PANE" automatic-rename 2>/dev/null || echo "on")
+  tmux set-option -w -t "$TMUX_PANE" '@claude_original_name' "$CURRENT_NAME" 2>/dev/null
+  tmux set-option -w -t "$TMUX_PANE" '@claude_original_auto_rename' "$ORIG_AUTO" 2>/dev/null
+  tmux set-option -w -t "$TMUX_PANE" automatic-rename off 2>/dev/null
+  tmux rename-window -t "$TMUX_PANE" "🤖 $CURRENT_NAME" 2>/dev/null
+  echo "$(date): SET marker (stashed '$CURRENT_NAME', auto-rename was $ORIG_AUTO)" >> "$LOG"
 fi
 
 # Build JSON (escape quotes)
