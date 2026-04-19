@@ -161,7 +161,7 @@
       create: true
       force: true
       path: .config/yazi
-    # bat: custom themes (run `bat cache --build` after first install)
+    # bat: custom themes (cache rebuilt automatically by the shell hook below)
     ~/.config/bat:
       create: true
       force: true
@@ -184,3 +184,4 @@
 - shell:
     - ["git submodule update --init --recursive", "Installing submodules"]
     - ["cd fzf && ./install --bin && ./install --key-bindings --completion --no-update-rc", "Installing fzf"]
+    - ["command -v bat >/dev/null 2>&1 && bat cache --build >/dev/null || true", "Rebuilding bat theme cache"]
