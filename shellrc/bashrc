@@ -27,14 +27,12 @@ shopt -s nullglob
 source_dir "$HOME/.shellrc/paths.d" sh
 [[ "$(uname)" == "Darwin" ]] && source_dir "$HOME/.shellrc/paths.d.osx" sh
 
-# clean up any path dupes
-if [[ -z $TMUX ]]; then
-  PATH=$(echo "$PATH" | tr ':' '\n' | awk '!seen[$0]++' | tr '\n' ':' | sed 's/:$//')
-fi
-
-# common config
+# common config (includes mise activate, which appends global tool paths)
 source_dir "$HOME/.shellrc/rc.d" sh
 [[ "$(uname)" == "Darwin" ]] && source_dir "$HOME/.shellrc/rc.d.osx" sh
+
+# Deduplicate PATH
+PATH=$(echo "$PATH" | tr ':' '\n' | awk '!seen[$0]++' | tr '\n' ':' | sed 's/:$//')
 
 # bash-specific overrides
 source_dir "$HOME/.shellrc/bashrc.d" bash

@@ -4,6 +4,9 @@
 # https://mise.jdx.dev/
 
 if command -v mise &>/dev/null; then
+  # Strip inherited mise paths so activate starts clean; the PROMPT_COMMAND hook
+  # repopulates them correctly on first prompt via mise hook-env.
+  PATH=$(echo "$PATH" | tr ':' '\n' | grep -v '/mise/' | tr '\n' ':' | sed 's/:$//')
   eval "$(mise activate bash)"
   eval "$(mise completion bash)"
 
