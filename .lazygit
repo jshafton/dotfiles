@@ -57,3 +57,4 @@ customCommands:
     loadingText: "Creating branch"
 os:
   editPreset: nvim-remote
+  copyToClipboardCmd: osc52copy {{text}}
