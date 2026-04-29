@@ -42,19 +42,7 @@ gui:
     defaultFgColor:
       - "#e8e4dc"
   skipHookPrefix: ''
-customCommands:
-  - key: "<c-r>"
-    command: "hub pull-request -p --no-edit -o"
-    context: "global"
-    loadingText: "Creating pull request on GitHub"
-  - key: "<c-n>"
-    context: "localBranches"
-    prompts:
-      - type: 'input'
-        title: 'What is the new branch name?'
-        initialValue: ''
-    command: "git checkout master && git pull && git checkout -b {{index .PromptResponses 0}}"
-    loadingText: "Creating branch"
+customCommands: []
 os:
   editPreset: nvim-remote
   copyToClipboardCmd: osc52copy {{text}}
