@@ -10,6 +10,7 @@ auto_install = true
 [tools]
 # Default global tools - override per-project as needed
 node = "lts"
+java = "temurin-21.0.11+10.0.LTS"
 python = "latest"
 go = "latest"
 rust = "latest"
@@ -17,3 +18,5 @@ uv = "latest"
 ruby = "latest"
 "npm:typescript-language-server" = "latest"
 awscli = { version = "latest", symlink_bins = "true" }
+bun = "latest"
+"github:can1357/oh-my-pi" = "latest"
