@@ -62,6 +62,7 @@ cask "authy"
 cask "datagrip"
 cask "dash"
 cask "wezterm"
+cask "hammerspoon"
 cask "karabiner-elements"
 
 # personal apps

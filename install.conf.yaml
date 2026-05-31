@@ -84,6 +84,10 @@
       create: true
       force: true
       path: vimfiles/
+    ~/.hammerspoon:
+      create: true
+      force: true
+      path: hammerspoon/
     ~/.config/k9s:
       create: true
       force: true
