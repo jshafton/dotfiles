@@ -40,7 +40,9 @@ alias gout='git fetch; git whatchanged origin..'
 alias gpsu='git push -u origin `git rev-parse --abbrev-ref HEAD`'
 alias gfa='git fetch --all'
 _git_default_branch() {
-  git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo master
+  local branch
+  branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+  echo "${branch:-master}"
 }
 gcom()      { git checkout "$(_git_default_branch)"; }
 gcomp()     { git checkout "$(_git_default_branch)" && git pull; }
