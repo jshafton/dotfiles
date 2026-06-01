@@ -42,7 +42,15 @@ alias gfa='git fetch --all'
 _git_default_branch() {
   local branch
   branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
-  echo "${branch:-master}"
+  if [ -z "$branch" ]; then
+    for b in main master develop; do
+      if git show-ref --verify --quiet "refs/remotes/origin/$b"; then
+        branch="$b"
+        break
+      fi
+    done
+  fi
+  echo "${branch:-main}"
 }
 gcom()      { git checkout "$(_git_default_branch)"; }
 gcomp()     { git checkout "$(_git_default_branch)" && git pull; }
