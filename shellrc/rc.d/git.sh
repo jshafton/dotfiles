@@ -39,10 +39,13 @@ alias gin='git fetch; git whatchanged ..origin'
 alias gout='git fetch; git whatchanged origin..'
 alias gpsu='git push -u origin `git rev-parse --abbrev-ref HEAD`'
 alias gfa='git fetch --all'
-alias gcom='git checkout master'
-alias gcomp='git checkout master && git pull'
+_git_default_branch() {
+  git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo master
+}
+gcom()      { git checkout "$(_git_default_branch)"; }
+gcomp()     { git checkout "$(_git_default_branch)" && git pull; }
+gdm()       { git diff "$(_git_default_branch)"; }
+newbranch() { git checkout "$(_git_default_branch)" && git pull && git checkout -b "$1"; }
 alias gc-='git checkout -'
-alias gdm='git diff master'
 alias gdu='git diff @{upstream}'
 alias gru='git reset @{upstream} --hard'
-alias newbranch='git checkout master && git pull && git checkout -b '
