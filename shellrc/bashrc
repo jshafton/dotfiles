@@ -23,15 +23,14 @@ fi
 
 shopt -s nullglob
 
-# PATH setup
-source_dir "$HOME/.shellrc/paths.d" sh
-[[ "$(uname)" == "Darwin" ]] && source_dir "$HOME/.shellrc/paths.d.osx" sh
+# Centralized PATH setup: local tools > Homebrew > system, then mise shims.
+source "$HOME/.shellrc/paths.d/00_path_setup.sh"
 
-# common config (includes mise activate, which appends global tool paths)
+# Common config
 source_dir "$HOME/.shellrc/rc.d" sh
 [[ "$(uname)" == "Darwin" ]] && source_dir "$HOME/.shellrc/rc.d.osx" sh
 
-# Deduplicate PATH
+# Deduplicate PATH while preserving order
 PATH=$(echo "$PATH" | tr ':' '\n' | awk '!seen[$0]++' | tr '\n' ':' | sed 's/:$//')
 
 # bash-specific overrides
