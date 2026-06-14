@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+command -v fzf >/dev/null 2>&1 || { echo "fzf not found"; sleep 2; exit 1; }
+
+current_session=$(tmux display-message -p '#S')
+
+# Build window list: "session:index  window_flags  name  command  path"
+windows=$(tmux list-windows -a \
+  -F "#{session_name}:#{window_index}	#{window_flags}	#{window_name}	#{pane_current_command}	#{pane_current_path}")
+
+[ -z "$windows" ] && { echo "No windows found"; sleep 2; exit 1; }
+
+# ANSI codes
+RED='\033[1;31m'
+RESET='\033[0m'
+
+# Format for display: attention windows first, then normal
+display=$(echo "$windows" | awk -F'\t' -v cur="$current_session" \
+    -v red='\033[1;31m' -v yellow='\033[1;33m' -v reset='\033[0m' '{
+  target = $1
+  flags  = $2
+  name   = $3
+  cmd    = $4
+  dir    = $5
+  sub(ENVIRON["HOME"], "~", dir)
+  split(target, parts, ":")
+  sess = parts[1]
+  marker = (sess == cur) ? "*" : "-"
+  bell   = (flags ~ /!/)   ? 1 : 0
+  robot  = (name ~ /^🤖/)  ? 1 : 0
+  if (bell)
+    attention[NR] = sprintf("%s%s %-30s  %-16s  %-14s  %s%s", red,    marker, target, name, cmd, dir, reset)
+  else if (robot)
+    attention[NR] = sprintf("%s%s %-30s  %-16s  %-14s  %s%s", yellow, marker, target, name, cmd, dir, reset)
+  else
+    normal[NR]    = sprintf("%s %-30s  %-16s  %-14s  %s",             marker, target, name, cmd, dir)
+}
+END {
+  for (i = 1; i <= NR; i++) if (i in normal)    print normal[i]
+  for (i = 1; i <= NR; i++) if (i in attention) print attention[i]
+}')
+
+preview_cmd='
+  target=$(echo {} | awk "{print \$2}")
+  tmux capture-pane -p -t "$target" 2>/dev/null | tail -30
+'
+
+selected=$(echo "$display" | fzf \
+  --ansi \
+  --prompt="window> " \
+  --header="* = current session | red = bell | yellow = claude | enter to switch" \
+  --bind="ctrl-c:abort,esc:abort" \
+  --preview="$preview_cmd" \
+  --preview-window=right:50%:wrap \
+  --nth=1,2,3,4 \
+  --with-nth=1..) || exit 0
+
+target=$(echo "$selected" | awk '{print $2}')
+[ -z "$target" ] && exit 0
+
+tmux switch-client -t "$target"
