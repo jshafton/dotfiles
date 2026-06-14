@@ -37,8 +37,8 @@ display=$(echo "$windows" | awk -F'\t' -v cur="$current_session" \
     normal[NR]    = sprintf("%s %-30s  %-16s  %-14s  %s",             marker, target, name, cmd, dir)
 }
 END {
-  for (i = 1; i <= NR; i++) if (i in normal)    print normal[i]
   for (i = 1; i <= NR; i++) if (i in attention) print attention[i]
+  for (i = 1; i <= NR; i++) if (i in normal)    print normal[i]
 }')
 
 preview_cmd='
