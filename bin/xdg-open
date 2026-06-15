@@ -1,0 +1,26 @@
+#!/bin/bash
+# xdg-open replacement that forwards URLs to the local machine's browser
+# when running over SSH, using WezTerm's OSC 1337 SetUserVar mechanism.
+#
+# On the local Mac, .wezterm.lua handles the "open_url" user var and
+# calls wezterm.open_with() to launch the default browser.
+
+url="$1"
+
+# Only intercept HTTP(S) URLs over SSH; everything else uses real xdg-open
+if [[ "$url" =~ ^https?:// && -n "$SSH_CONNECTION" ]]; then
+  encoded="$(echo -n "$url" | base64 | tr -d '\n')"
+
+  if [[ -n "$TMUX" ]]; then
+    # tmux strips raw OSC sequences — wrap in DCS passthrough and write
+    # to the pane's TTY device (stdout alone doesn't survive intact)
+    target_tty="$(tmux display-message -p '#{pane_tty}' 2>/dev/null)"
+    printf '\033Ptmux;\033\033]1337;SetUserVar=%s=%s\007\033\\' \
+      "open_url" "$encoded" >"${target_tty:-/dev/tty}"
+  else
+    # Plain SSH without tmux — send the OSC sequence directly
+    printf '\033]1337;SetUserVar=%s=%s\007' "open_url" "$encoded" >/dev/tty
+  fi
+else
+  /usr/bin/xdg-open "$url"
+fi
