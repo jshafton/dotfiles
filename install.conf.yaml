@@ -190,7 +190,16 @@
       create: true
       force: true
       path: .config/ripgrep
+    # Claude Code: personal hook script. The hook *wiring* is merged into
+    # ~/.claude/settings.json by the shell step below (Claude Code and other
+    # tools also write that file, so it can't be symlinked) — see
+    # bin/sync-claude-hooks.sh and .claude/hooks.json.
+    ~/.claude/hooks/sensitive-file-guard.sh:
+      create: true
+      force: true
+      path: .claude/hooks/sensitive-file-guard.sh
 - shell:
     - ["git submodule update --init --recursive", "Installing submodules"]
     - ["cd fzf && ./install --bin && ./install --key-bindings --completion --no-update-rc", "Installing fzf"]
     - ["command -v bat >/dev/null 2>&1 && bat cache --build >/dev/null || true", "Rebuilding bat theme cache"]
+    - ["command -v jq >/dev/null 2>&1 && bin/sync-claude-hooks.sh || true", "Syncing personal Claude Code hooks into settings.json"]

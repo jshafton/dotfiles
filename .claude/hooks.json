@@ -1,0 +1,137 @@
+{
+  "Stop": [
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "~/bin/claude-notification-hook.sh",
+          "async": false
+        }
+      ]
+    },
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash /home/shafjac/bin/tmux-agent-state.sh Stop",
+          "async": true
+        }
+      ]
+    }
+  ],
+  "PermissionRequest": [
+    {
+      "matcher": "*",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "~/bin/claude-notification-hook.sh",
+          "async": false
+        }
+      ]
+    },
+    {
+      "matcher": "*",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash /home/shafjac/bin/tmux-agent-state.sh PermissionRequest",
+          "async": true
+        }
+      ]
+    }
+  ],
+  "Notification": [
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "~/bin/claude-notification-hook.sh",
+          "async": false
+        }
+      ]
+    }
+  ],
+  "PreToolUse": [
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "/home/shafjac/.claude/hooks/sensitive-file-guard.sh"
+        }
+      ]
+    }
+  ],
+  "UserPromptSubmit": [
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "~/bin/claude-clear-attention.sh user-prompt",
+          "async": true
+        }
+      ]
+    },
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash /home/shafjac/bin/tmux-agent-state.sh UserPromptSubmit",
+          "async": true
+        }
+      ]
+    }
+  ],
+  "SessionStart": [
+    {
+      "matcher": "clear",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "~/bin/claude-clear-attention.sh session-clear",
+          "async": true
+        }
+      ]
+    },
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash /home/shafjac/bin/tmux-agent-state.sh SessionStart",
+          "async": true
+        }
+      ]
+    }
+  ],
+  "StopFailure": [
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash /home/shafjac/bin/tmux-agent-state.sh StopFailure",
+          "async": true
+        }
+      ]
+    }
+  ],
+  "PostToolUse": [
+    {
+      "matcher": "*",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash /home/shafjac/bin/tmux-agent-state.sh PostToolUse",
+          "async": true
+        }
+      ]
+    }
+  ]
+}
