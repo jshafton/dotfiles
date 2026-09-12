@@ -1,0 +1,40 @@
+[metadata]
+name = "nordic"
+author = "AlexvZyl / kuntau"
+origin_url = "https://github.com/AlexvZyl/nordic.nvim"
+
+[colors]
+foreground = "#C0C8D8"
+background = "#242933"
+cursor_bg = "#D8DEE9"
+cursor_border = "#D8DEE9"
+cursor_fg = "#242933"
+selection_fg = "#D8DEE9"
+selection_bg = "#2E3440"
+ansi = ["#191D24", "#BF616A", "#A3BE8C", "#EBCB8B", "#5E81AC", "#B48EAD", "#8FBCBB", "#C0C8D8"]
+brights = ["#3B4252", "#C5727A", "#B1C89D", "#EFD49F", "#88C0D0", "#BE9DB8", "#9FC6C5", "#D8DEE9"]
+
+[colors.tab_bar]
+background = "#191D24"
+
+[colors.tab_bar.active_tab]
+bg_color = "#5E81AC"
+fg_color = "#242933"
+
+[colors.tab_bar.inactive_tab]
+bg_color = "#191D24"
+fg_color = "#3B4252"
+
+[colors.tab_bar.inactive_tab_hover]
+bg_color = "#2E3440"
+fg_color = "#C0C8D8"
+italic = true
+
+[colors.tab_bar.new_tab]
+bg_color = "#191D24"
+fg_color = "#3B4252"
+
+[colors.tab_bar.new_tab_hover]
+bg_color = "#2E3440"
+fg_color = "#C0C8D8"
+italic = true

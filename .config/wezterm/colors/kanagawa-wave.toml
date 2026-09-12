@@ -1,0 +1,49 @@
+[metadata]
+name = "kanagawa-wave"
+author = "sravioli"
+origin_url = "https://github.com/sravioli/kanagawa.wz"
+
+[colors]
+background = "#1F1F28"
+foreground = "#DCD7BA"
+cursor_bg = "#C8C093"
+cursor_fg = "#16161D"
+cursor_border = "#C8C093"
+selection_fg = "#DCD7BA"
+selection_bg = "#223249"
+scrollbar_thumb = "#223249"
+split = "#54546D"
+compose_cursor = "#FF9E3B"
+visual_bell = "#16161D"
+ansi = ["#16161D", "#C34043", "#76946A", "#C0A36E", "#7E9CD8", "#957FB8", "#6A9589", "#C8C093"]
+brights = ["#727169", "#E82424", "#98BB6C", "#E6C384", "#7FB4CA", "#938AA9", "#7AA89F", "#DCD7BA"]
+
+[colors.indexed]
+16 = "#FFA066"
+17 = "#FF5D62"
+
+[colors.tab_bar]
+background = "#16161D"
+inactive_tab_edge = "#727169"
+
+[colors.tab_bar.active_tab]
+bg_color = "#7E9CD8"
+fg_color = "#1F1F28"
+
+[colors.tab_bar.inactive_tab]
+bg_color = "#727169"
+fg_color = "#181820"
+
+[colors.tab_bar.inactive_tab_hover]
+bg_color = "#223249"
+fg_color = "#727169"
+italic = true
+
+[colors.tab_bar.new_tab]
+bg_color = "#727169"
+fg_color = "#181820"
+
+[colors.tab_bar.new_tab_hover]
+bg_color = "#9CABCA"
+fg_color = "#181820"
+italic = true
