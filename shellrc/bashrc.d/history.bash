@@ -13,4 +13,4 @@ export HISTFILE=$HOME/.history
 export HISTCONTROL=ignoredups:ignorespace
 
 # After each command, append to the history file and reread it
-PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$"\n"}history -a;"
+PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND;}history -a"
