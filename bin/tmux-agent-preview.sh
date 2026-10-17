@@ -3,9 +3,12 @@
 # Captures the target pane and prints its agent output with the Claude input
 # box + status bar at the bottom trimmed off, so the last message — or whatever
 # the agent is blocked on — is what you see, not the "> " prompt and
-# "Model: … / bypass permissions" chrome. The popup wraps this and auto-scrolls
-# to the bottom (focus:preview-bottom), so the latest line shows first; agent
-# panes are full terminal width, so wrapping is the only way it all fits.
+# "Model: … / bypass permissions" chrome. Agent panes are full terminal width
+# and the popup wraps their lines, so only the trailing lines that fit the
+# preview box once wrapped (FZF_PREVIEW_LINES x FZF_PREVIEW_COLUMNS) are
+# printed: the latest status shows without scrolling. Wide characters such as
+# emoji count as one column, so the box can still overflow slightly; the
+# popup's preview-bottom binding keeps the end in view when it does.
 set -euo pipefail
 
 pane="${1:-}"
@@ -36,6 +39,25 @@ tmux capture-pane -p -t "$pane" 2>/dev/null | awk '
       end = cut - 1
     }
     while (end > 0 && isblank(a[end])) end--
-    for (i = 1; i <= end; i++) print a[i]
+    if (end == 0) exit
+
+    # Keep the trailing lines whose wrapped height fits the preview box. Run
+    # outside fzf (no size set), print everything.
+    rows = ENVIRON["FZF_PREVIEW_LINES"] + 0
+    cols = ENVIRON["FZF_PREVIEW_COLUMNS"] + 0
+    start = 1
+    if (rows > 0 && cols > 0) {
+      used = 0
+      for (i = end; i >= 1; i--) {
+        h = int((length(a[i]) + cols - 1) / cols)
+        if (h < 1) h = 1
+        if (used + h > rows) break
+        used += h
+      }
+      start = i + 1
+      if (start > end) start = end   # one line taller than the box: show it anyway
+      while (start < end && isblank(a[start])) start++
+    }
+    for (i = start; i <= end; i++) print a[i]
   }
 '
